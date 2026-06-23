@@ -1,8 +1,23 @@
-import { dishGallery, menuExamples, processSteps, servicePackages, workplaces } from "./data";
+import { useMemo, useState } from "react";
+import {
+  dishGallery,
+  localizedContent,
+  localizedMenuExamples,
+  localizedPackages,
+  localizedProcessSteps,
+  localizedWorkplaces,
+  type Language,
+} from "./data";
 
 const whatsappNumber = "34642370671";
 const whatsappMessage = encodeURIComponent("Hello Y&D Kitchen Studio, I would like to discuss a menu or kitchen launch project.");
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+const languages: Array<{ code: Language; label: string }> = [
+  { code: "en", label: "EN" },
+  { code: "uk", label: "UA" },
+  { code: "es", label: "ES" },
+];
 
 function SectionTitle({ label, title, copy }: { label: string; title: string; copy?: string }) {
   return (
@@ -14,7 +29,15 @@ function SectionTitle({ label, title, copy }: { label: string; title: string; co
   );
 }
 
-function Header() {
+function Header({
+  lang,
+  setLang,
+}: {
+  lang: Language;
+  setLang: (language: Language) => void;
+}) {
+  const content = localizedContent[lang];
+
   return (
     <header className="site-header">
       <a className="brand" href="#top" aria-label="Y&D Kitchen Studio home">
@@ -22,94 +45,98 @@ function Header() {
         <strong>Kitchen Studio</strong>
       </a>
       <nav aria-label="Primary navigation">
-        <a href="#experience">Experience</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#menus">Menus</a>
-        <a href="#contact">Contact</a>
+        <a href="#experience">{content.nav.experience}</a>
+        <a href="#portfolio">{content.nav.portfolio}</a>
+        <a href="#menus">{content.nav.menus}</a>
+        <a href="#contact">{content.nav.contact}</a>
       </nav>
-      <a className="header-cta" href={whatsappUrl}>
-        Book a consultation
-      </a>
+      <div className="header-actions">
+        <div className="language-switcher" aria-label="Language selector">
+          {languages.map((language) => (
+            <button
+              aria-pressed={lang === language.code}
+              className={lang === language.code ? "active" : ""}
+              key={language.code}
+              onClick={() => setLang(language.code)}
+              type="button"
+            >
+              {language.label}
+            </button>
+          ))}
+        </div>
+        <a className="header-cta" href={whatsappUrl}>
+          {content.cta.book}
+        </a>
+      </div>
     </header>
   );
 }
 
-function Hero() {
+function Hero({ lang }: { lang: Language }) {
+  const content = localizedContent[lang];
+
   return (
     <section className="hero" id="top">
       <div className="hero-copy reveal">
-        <h1>Kitchen launch & bespoke menus for restaurants</h1>
-        <p>
-          Yulia and Daniel build practical menus, prep systems, costing logic and launch support for cafes,
-          restaurants, catering and hospitality projects in Marbella and Costa del Sol.
-        </p>
+        <h1>{content.hero.title}</h1>
+        <p>{content.hero.copy}</p>
         <div className="hero-actions">
           <a className="button primary" href="#portfolio">
-            View portfolio
+            {content.cta.portfolio}
           </a>
           <a className="button ghost" href={whatsappUrl}>
-            Book a consultation
+            {content.cta.book}
           </a>
         </div>
       </div>
-      <div className="hero-visual reveal" aria-label="Premium restaurant dishes and kitchen work">
+      <div className="hero-visual reveal" aria-label={content.hero.imageLabel}>
         <img
           src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1200&q=86"
-          alt="Chef plating a premium restaurant dish"
+          alt={content.hero.imageAlt}
         />
         <div className="floating-card service-card">
-          <span>Menu systems</span>
-          <strong>Costing, prep, portions, launch</strong>
+          <span>{content.hero.cardOneLabel}</span>
+          <strong>{content.hero.cardOneText}</strong>
         </div>
         <div className="floating-card location-card">
           <span>Marbella</span>
-          <strong>Costa del Sol hospitality</strong>
+          <strong>{content.hero.cardTwoText}</strong>
         </div>
       </div>
     </section>
   );
 }
 
-function About() {
+function About({ lang }: { lang: Language }) {
+  const content = localizedContent[lang];
+
   return (
     <section className="band about-section">
-      <SectionTitle
-        label="About us"
-        title="Real kitchen work, management discipline and menu thinking."
-        copy="We are not selling generic menu templates. We build menus around the actual kitchen, team, equipment, service rhythm and business model."
-      />
+      <SectionTitle label={content.about.label} title={content.about.title} copy={content.about.copy} />
       <div className="about-grid">
-        <article className="profile-card reveal">
-          <h3>Daniel Zamiatin</h3>
-          <p>Chef-side experience across hot section, grill, production kitchens, catering and high-pressure service.</p>
-          <ul>
-            <li>10+ years in professional kitchens</li>
-            <li>Menu execution, prep planning and service flow</li>
-            <li>European, Eastern European, grill and catering formats</li>
-          </ul>
-        </article>
-        <article className="profile-card reveal">
-          <h3>Yuliia Horbach</h3>
-          <p>Manager and process owner with food quality control, order operations, catering menu logic and documentation.</p>
-          <ul>
-            <li>Food quality and packaging standards</li>
-            <li>Menu portions, recipes and process checks</li>
-            <li>Owner-side control from order to delivery</li>
-          </ul>
-        </article>
+        {content.about.profiles.map((profile) => (
+          <article className="profile-card reveal" key={profile.name}>
+            <h3>{profile.name}</h3>
+            <p>{profile.copy}</p>
+            <ul>
+              {profile.points.map((point) => (
+                <li key={point}>{point}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
       </div>
     </section>
   );
 }
 
-function Experience() {
+function Experience({ lang }: { lang: Language }) {
+  const content = localizedContent[lang];
+  const workplaces = localizedWorkplaces[lang];
+
   return (
     <section className="section" id="experience">
-      <SectionTitle
-        label="Work & menu experience"
-        title="Restaurants, production kitchens and catering operations."
-        copy="Each project shaped how we think about realistic menus: dishes that sell, prep that works, portions that can be repeated and service that does not collapse under pressure."
-      />
+      <SectionTitle label={content.experience.label} title={content.experience.title} copy={content.experience.copy} />
       <div className="experience-grid">
         {workplaces.map((place) => (
           <article className="experience-card reveal" key={`${place.owner}-${place.name}`}>
@@ -132,21 +159,19 @@ function Experience() {
   );
 }
 
-function DishPortfolio() {
+function DishPortfolio({ lang }: { lang: Language }) {
+  const content = localizedContent[lang];
+
   return (
     <section className="section portfolio-section" id="portfolio">
-      <SectionTitle
-        label="30-dish portfolio"
-        title="A cinematic food rail for menu direction and service style."
-        copy="Temporary premium visuals for v1. Replace with real Y&D dishes before public launch for stronger proof."
-      />
-      <div className="dish-rail" aria-label="Dish portfolio carousel">
+      <SectionTitle label={content.portfolio.label} title={content.portfolio.title} copy={content.portfolio.copy} />
+      <div className="dish-rail" aria-label={content.portfolio.carouselLabel}>
         {dishGallery.map((dish, index) => (
-          <article className="dish-card reveal" key={`${dish.title}-${index}`}>
-            <img src={dish.image} alt={dish.title} loading={index < 6 ? "eager" : "lazy"} />
+          <article className="dish-card reveal" key={`${dish.title.en}-${index}`}>
+            <img src={dish.image} alt={dish.title[lang]} loading={index < 6 ? "eager" : "lazy"} />
             <div>
-              <span>{dish.category}</span>
-              <h3>{dish.title}</h3>
+              <span>{dish.category[lang]}</span>
+              <h3>{dish.title[lang]}</h3>
             </div>
           </article>
         ))}
@@ -155,16 +180,15 @@ function DishPortfolio() {
   );
 }
 
-function MenuExamples() {
+function MenuExamples({ lang }: { lang: Language }) {
+  const content = localizedContent[lang];
+  const menus = localizedMenuExamples[lang];
+
   return (
     <section className="band menu-section" id="menus">
-      <SectionTitle
-        label="Ready menu examples"
-        title="Menu structures we can build around your real kitchen."
-        copy="These are authored sample menus that show direction, format and logic. They are not copied client menus or confidential technical documents."
-      />
+      <SectionTitle label={content.menus.label} title={content.menus.title} copy={content.menus.copy} />
       <div className="menu-grid">
-        {menuExamples.map((menu) => (
+        {menus.map((menu) => (
           <article className="menu-panel reveal" key={menu.title}>
             <div className="menu-panel-header">
               <span>{menu.format}</span>
@@ -176,7 +200,7 @@ function MenuExamples() {
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <a href={whatsappUrl}>Build a menu like this</a>
+            <a href={whatsappUrl}>{content.cta.menu}</a>
           </article>
         ))}
       </div>
@@ -184,16 +208,15 @@ function MenuExamples() {
   );
 }
 
-function Process() {
+function Process({ lang }: { lang: Language }) {
+  const content = localizedContent[lang];
+  const steps = localizedProcessSteps[lang];
+
   return (
     <section className="section process-section">
-      <SectionTitle
-        label="Process"
-        title="From concept to stable kitchen service."
-        copy="The goal is not just beautiful dishes. It is a menu your team can prep, cost, plate and repeat."
-      />
+      <SectionTitle label={content.process.label} title={content.process.title} copy={content.process.copy} />
       <div className="process-list">
-        {processSteps.map((step, index) => (
+        {steps.map((step, index) => (
           <div className="process-step reveal" key={step}>
             <span>{String(index + 1).padStart(2, "0")}</span>
             <p>{step}</p>
@@ -204,16 +227,15 @@ function Process() {
   );
 }
 
-function Packages() {
+function Packages({ lang }: { lang: Language }) {
+  const content = localizedContent[lang];
+  const packages = localizedPackages[lang];
+
   return (
     <section className="section packages-section">
-      <SectionTitle
-        label="Packages"
-        title="Clear starting points for different launch stages."
-        copy="Every package is adapted after we understand your concept, equipment, staff level and target guest."
-      />
+      <SectionTitle label={content.packages.label} title={content.packages.title} copy={content.packages.copy} />
       <div className="package-grid">
-        {servicePackages.map((pack) => (
+        {packages.map((pack) => (
           <article className="package-card reveal" key={pack.name}>
             <span>{pack.price}</span>
             <h3>{pack.name}</h3>
@@ -230,26 +252,27 @@ function Packages() {
   );
 }
 
-function Confidentiality() {
+function Confidentiality({ lang }: { lang: Language }) {
+  const content = localizedContent[lang];
+
   return (
     <section className="confidentiality">
       <div className="confidentiality-inner reveal">
-        <h2>We show menu structure, dish direction and public references.</h2>
-        <p>
-          Client recipes, tech cards, costing and internal production documents remain confidential. A strong menu is
-          created for your equipment, suppliers, team, margin, season and guests.
-        </p>
+        <h2>{content.confidentiality.title}</h2>
+        <p>{content.confidentiality.copy}</p>
       </div>
     </section>
   );
 }
 
-function Contact() {
+function Contact({ lang }: { lang: Language }) {
+  const content = localizedContent[lang];
+
   return (
     <footer className="contact-section" id="contact">
       <div>
         <span>Y&D Kitchen Studio</span>
-        <h2>Tell us what you want to launch.</h2>
+        <h2>{content.contact.title}</h2>
         <p>Marbella / San Pedro de Alcantara / Costa del Sol</p>
       </div>
       <div className="contact-links">
@@ -262,22 +285,25 @@ function Contact() {
 }
 
 export default function App() {
+  const [lang, setLang] = useState<Language>("en");
+  const floatingLabel = useMemo(() => localizedContent[lang].cta.whatsapp, [lang]);
+
   return (
     <>
-      <Header />
+      <Header lang={lang} setLang={setLang} />
       <main>
-        <Hero />
-        <About />
-        <Experience />
-        <DishPortfolio />
-        <MenuExamples />
-        <Process />
-        <Packages />
-        <Confidentiality />
-        <Contact />
+        <Hero lang={lang} />
+        <About lang={lang} />
+        <Experience lang={lang} />
+        <DishPortfolio lang={lang} />
+        <MenuExamples lang={lang} />
+        <Process lang={lang} />
+        <Packages lang={lang} />
+        <Confidentiality lang={lang} />
+        <Contact lang={lang} />
       </main>
-      <a className="floating-whatsapp" href={whatsappUrl} aria-label="Book a consultation on WhatsApp">
-        WhatsApp
+      <a className="floating-whatsapp" href={whatsappUrl} aria-label={floatingLabel}>
+        {floatingLabel}
       </a>
     </>
   );
