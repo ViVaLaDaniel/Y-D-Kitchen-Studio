@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import {
   dishGallery,
   localizedContent,
+  localizedGrowthContent,
   localizedMenuExamples,
   localizedPackages,
   localizedProcessSteps,
@@ -81,11 +82,11 @@ function Hero({ lang }: { lang: Language }) {
         <h1>{content.hero.title}</h1>
         <p>{content.hero.copy}</p>
         <div className="hero-actions">
-          <a className="button primary" href="#portfolio">
-            {content.cta.portfolio}
-          </a>
           <a className="button ghost" href={whatsappUrl}>
             {content.cta.book}
+          </a>
+          <a className="button primary" href="#menus">
+            {content.cta.portfolio}
           </a>
         </div>
       </div>
@@ -102,6 +103,67 @@ function Hero({ lang }: { lang: Language }) {
           <span>Marbella</span>
           <strong>{content.hero.cardTwoText}</strong>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function ProofStrip({ lang }: { lang: Language }) {
+  const growth = localizedGrowthContent[lang];
+
+  return (
+    <section className="proof-strip" aria-label="Y&D proof points">
+      {growth.proof.map((item) => (
+        <div className="proof-item reveal" key={item.value}>
+          <strong>{item.value}</strong>
+          <span>{item.label}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function OperatingAuthority({ lang }: { lang: Language }) {
+  const growth = localizedGrowthContent[lang];
+
+  return (
+    <section className="section authority-section">
+      <div className="problem-panel reveal">
+        <span>{growth.problem.label}</span>
+        <h2>{growth.problem.title}</h2>
+        <p>{growth.problem.copy}</p>
+      </div>
+      <div className="authority-grid">
+        <article className="authority-card reveal">
+          <SectionTitle label={growth.audiences.label} title={growth.audiences.title} />
+          <div className="audience-list">
+            {growth.audiences.items.map((item) => (
+              <div key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+        <article className="authority-card reveal">
+          <SectionTitle label={growth.deliverables.label} title={growth.deliverables.title} />
+          <ul className="deliverable-list">
+            {growth.deliverables.items.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+      </div>
+      <div className="risk-panel reveal">
+        <div>
+          <span>{growth.riskAudit.label}</span>
+          <h2>{growth.riskAudit.title}</h2>
+        </div>
+        <ul>
+          {growth.riskAudit.items.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -161,12 +223,32 @@ function Experience({ lang }: { lang: Language }) {
 
 function DishPortfolio({ lang }: { lang: Language }) {
   const content = localizedContent[lang];
+  const growth = localizedGrowthContent[lang];
+  const categories = [growth.portfolioFilters.all, ...Array.from(new Set(dishGallery.map((dish) => dish.category[lang])))];
+  const [activeCategory, setActiveCategory] = useState(categories[0]);
+  const selectedCategory = categories.includes(activeCategory) ? activeCategory : growth.portfolioFilters.all;
+  const visibleDishes =
+    selectedCategory === growth.portfolioFilters.all
+      ? dishGallery
+      : dishGallery.filter((dish) => dish.category[lang] === selectedCategory);
 
   return (
     <section className="section portfolio-section" id="portfolio">
       <SectionTitle label={content.portfolio.label} title={content.portfolio.title} copy={content.portfolio.copy} />
+      <div className="category-chips" aria-label="Dish category filters">
+        {categories.map((category) => (
+          <button
+            className={selectedCategory === category ? "active" : ""}
+            key={category}
+            onClick={() => setActiveCategory(category)}
+            type="button"
+          >
+            {category}
+          </button>
+        ))}
+      </div>
       <div className="dish-rail" aria-label={content.portfolio.carouselLabel}>
-        {dishGallery.map((dish, index) => (
+        {visibleDishes.map((dish, index) => (
           <article className="dish-card reveal" key={`${dish.title.en}-${index}`}>
             <img src={dish.image} alt={dish.title[lang]} loading={index < 6 ? "eager" : "lazy"} />
             <div>
@@ -183,27 +265,37 @@ function DishPortfolio({ lang }: { lang: Language }) {
 function MenuExamples({ lang }: { lang: Language }) {
   const content = localizedContent[lang];
   const menus = localizedMenuExamples[lang];
+  const [activeMenuIndex, setActiveMenuIndex] = useState(0);
+  const activeMenu = menus[activeMenuIndex] ?? menus[0];
 
   return (
     <section className="band menu-section" id="menus">
       <SectionTitle label={content.menus.label} title={content.menus.title} copy={content.menus.copy} />
-      <div className="menu-grid">
-        {menus.map((menu) => (
-          <article className="menu-panel reveal" key={menu.title}>
-            <div className="menu-panel-header">
-              <span>{menu.format}</span>
-              <h3>{menu.title}</h3>
-              <p>{menu.subtitle}</p>
-            </div>
-            <ul>
-              {menu.items.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-            <a href={whatsappUrl}>{content.cta.menu}</a>
-          </article>
+      <div className="menu-tabs" aria-label="Menu example selector">
+        {menus.map((menu, index) => (
+          <button
+            className={index === activeMenuIndex ? "active" : ""}
+            key={menu.title}
+            onClick={() => setActiveMenuIndex(index)}
+            type="button"
+          >
+            {menu.title}
+          </button>
         ))}
       </div>
+      <article className="menu-panel featured-menu reveal" key={activeMenu.title}>
+        <div className="menu-panel-header">
+          <span>{activeMenu.format}</span>
+          <h3>{activeMenu.title}</h3>
+          <p>{activeMenu.subtitle}</p>
+        </div>
+        <ul>
+          {activeMenu.items.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+        <a href={whatsappUrl}>{content.cta.menu}</a>
+      </article>
     </section>
   );
 }
@@ -229,6 +321,7 @@ function Process({ lang }: { lang: Language }) {
 
 function Packages({ lang }: { lang: Language }) {
   const content = localizedContent[lang];
+  const growth = localizedGrowthContent[lang];
   const packages = localizedPackages[lang];
 
   return (
@@ -236,7 +329,8 @@ function Packages({ lang }: { lang: Language }) {
       <SectionTitle label={content.packages.label} title={content.packages.title} copy={content.packages.copy} />
       <div className="package-grid">
         {packages.map((pack) => (
-          <article className="package-card reveal" key={pack.name}>
+          <article className={pack.recommended ? "package-card recommended reveal" : "package-card reveal"} key={pack.name}>
+            {pack.recommended ? <b className="recommended-label">{growth.recommendedLabel}</b> : null}
             <span>{pack.price}</span>
             <h3>{pack.name}</h3>
             <p>{pack.summary}</p>
@@ -245,6 +339,9 @@ function Packages({ lang }: { lang: Language }) {
                 <li key={item}>{item}</li>
               ))}
             </ul>
+            <a className="package-link" href={whatsappUrl}>
+              {growth.packagesCta}
+            </a>
           </article>
         ))}
       </div>
@@ -267,6 +364,7 @@ function Confidentiality({ lang }: { lang: Language }) {
 
 function Contact({ lang }: { lang: Language }) {
   const content = localizedContent[lang];
+  const growth = localizedGrowthContent[lang];
 
   return (
     <footer className="contact-section" id="contact">
@@ -276,6 +374,14 @@ function Contact({ lang }: { lang: Language }) {
         <p>Marbella / San Pedro de Alcantara / Costa del Sol</p>
       </div>
       <div className="contact-links">
+        <div className="brief-card">
+          <strong>{growth.contactBrief.title}</strong>
+          <ul>
+            {growth.contactBrief.items.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
         <a href={whatsappUrl}>WhatsApp Daniel: +34 642 370 671</a>
         <a href="mailto:daniel.zamiatin@gmail.com">daniel.zamiatin@gmail.com</a>
         <a href="mailto:yuliia.horbach15@gmail.com">yuliia.horbach15@gmail.com</a>
@@ -293,6 +399,8 @@ export default function App() {
       <Header lang={lang} setLang={setLang} />
       <main>
         <Hero lang={lang} />
+        <ProofStrip lang={lang} />
+        <OperatingAuthority lang={lang} />
         <About lang={lang} />
         <Experience lang={lang} />
         <DishPortfolio lang={lang} />
