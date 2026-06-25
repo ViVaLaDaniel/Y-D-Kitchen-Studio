@@ -382,9 +382,7 @@ function Contact({ lang }: { lang: Language }) {
             ))}
           </ul>
         </div>
-        <a href={whatsappUrl}>WhatsApp Daniel: +34 642 370 671</a>
-        <a href="mailto:daniel.zamiatin@gmail.com">daniel.zamiatin@gmail.com</a>
-        <a href="mailto:yuliia.horbach15@gmail.com">yuliia.horbach15@gmail.com</a>
+        <a href={whatsappUrl}>{content.cta.whatsapp}</a>
       </div>
     </footer>
   );
