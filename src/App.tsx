@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import teamHeroImage from "./assets/yd-hospitality-advisory-team.png";
 import {
   dishGallery,
   localizedContent,
@@ -92,7 +93,7 @@ function Hero({ lang }: { lang: Language }) {
       </div>
       <div className="hero-visual reveal" aria-label={content.hero.imageLabel}>
         <img
-          src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1200&q=86"
+          src={teamHeroImage}
           alt={content.hero.imageAlt}
         />
         <div className="floating-card service-card">
@@ -164,6 +165,68 @@ function OperatingAuthority({ lang }: { lang: Language }) {
             <li key={item}>{item}</li>
           ))}
         </ul>
+      </div>
+    </section>
+  );
+}
+
+function AdvisoryTeam({ lang }: { lang: Language }) {
+  const growth = localizedGrowthContent[lang];
+
+  return (
+    <section className="band advisory-section">
+      <div className="advisory-layout">
+        <div className="advisory-copy reveal">
+          <span>{growth.advisor.label}</span>
+          <h2>{growth.advisor.title}</h2>
+          <p>{growth.advisor.copy}</p>
+          <p className="advisory-note">{growth.advisor.note}</p>
+        </div>
+        <div className="advisor-stats">
+          {growth.advisor.stats.map((stat) => (
+            <div className="advisor-stat reveal" key={stat.value}>
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TurnkeySystem({ lang }: { lang: Language }) {
+  const growth = localizedGrowthContent[lang];
+
+  return (
+    <section className="section turnkey-section">
+      <SectionTitle label={growth.turnkey.label} title={growth.turnkey.title} copy={growth.turnkey.copy} />
+      <div className="turnkey-grid">
+        {growth.turnkey.items.map((item, index) => (
+          <article className="turnkey-card reveal" key={item.title}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <h3>{item.title}</h3>
+            <p>{item.copy}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function InternationalOwners({ lang }: { lang: Language }) {
+  const growth = localizedGrowthContent[lang];
+
+  return (
+    <section className="band market-section">
+      <SectionTitle label={growth.foreignOwners.label} title={growth.foreignOwners.title} copy={growth.foreignOwners.copy} />
+      <div className="market-grid">
+        {growth.foreignOwners.markets.map((market) => (
+          <article className="market-card reveal" key={market.market}>
+            <h3>{market.market}</h3>
+            <p>{market.copy}</p>
+          </article>
+        ))}
       </div>
     </section>
   );
@@ -399,7 +462,10 @@ export default function App() {
         <Hero lang={lang} />
         <ProofStrip lang={lang} />
         <OperatingAuthority lang={lang} />
+        <AdvisoryTeam lang={lang} />
         <About lang={lang} />
+        <TurnkeySystem lang={lang} />
+        <InternationalOwners lang={lang} />
         <Experience lang={lang} />
         <DishPortfolio lang={lang} />
         <MenuExamples lang={lang} />

@@ -35,6 +35,25 @@ export type Package = {
 export type GrowthContent = {
   proof: Array<{ value: string; label: string }>;
   problem: { label: string; title: string; copy: string };
+  advisor: {
+    label: string;
+    title: string;
+    copy: string;
+    note: string;
+    stats: Array<{ value: string; label: string }>;
+  };
+  turnkey: {
+    label: string;
+    title: string;
+    copy: string;
+    items: Array<{ title: string; copy: string }>;
+  };
+  foreignOwners: {
+    label: string;
+    title: string;
+    copy: string;
+    markets: Array<{ market: string; copy: string }>;
+  };
   audiences: { label: string; title: string; items: Array<{ title: string; copy: string }> };
   deliverables: { label: string; title: string; items: string[] };
   riskAudit: { label: string; title: string; items: string[] };
@@ -84,18 +103,18 @@ export const localizedContent: Record<Language, PageContent> = {
       whatsapp: "WhatsApp",
     },
     hero: {
-      title: "Launch a profitable, repeatable kitchen menu in Marbella",
-      copy: "We design menus your team can prep, cost, plate and repeat under real service pressure: cafes, restaurants, catering and private villas across Costa del Sol.",
-      imageLabel: "Premium restaurant dishes and kitchen work",
-      imageAlt: "Chef plating a premium restaurant dish",
-      cardOneLabel: "Menu systems",
-      cardOneText: "Costing, prep, portions, launch",
-      cardTwoText: "Costa del Sol hospitality",
+      title: "Launch or relaunch a profitable restaurant menu in Costa del Sol",
+      copy: "Y&D Kitchen Studio helps restaurants, cafes, catering teams and villa hospitality projects turn a food idea into a service-ready kitchen system: menu, costing, prep flow, training and launch correction.",
+      imageLabel: "Premium hospitality advisory team planning a restaurant launch",
+      imageAlt: "Hospitality consulting team planning a restaurant menu and kitchen launch",
+      cardOneLabel: "Complete launch support",
+      cardOneText: "Concept, menu, costs, prep, team training",
+      cardTwoText: "Marbella, Spain and foreign owners",
     },
     about: {
       label: "About us",
-      title: "Real kitchen work, management discipline and menu thinking.",
-      copy: "We are not selling generic menu templates. We build menus around the actual kitchen, team, equipment, service rhythm and business model.",
+      title: "Chef execution, management discipline and senior Spanish hospitality advice.",
+      copy: "We are not selling generic menu templates. We build menus around the actual kitchen, team, equipment, service rhythm, local guest profile and business model.",
       profiles: [
         {
           name: "Daniel Zamiatin",
@@ -318,13 +337,46 @@ export const localizedGrowthContent: Record<Language, GrowthContent> = {
   en: {
     proof: [
       { value: "10+ years", label: "professional kitchen experience" },
-      { value: "Menu + cost", label: "structure, prep and margin logic" },
-      { value: "Marbella", label: "restaurants, catering and villa hospitality" },
+      { value: "50+ years", label: "Spanish hospitality advisory experience" },
+      { value: "Menu + cost", label: "prep, margin, training and launch logic" },
+      { value: "Costa del Sol", label: "restaurants, catering and villa hospitality" },
     ],
     problem: {
       label: "Operational risk",
       title: "Most menu launches fail in operations, not in ideas.",
       copy: "A menu can look strong on paper and still fail when the kitchen cannot prep it, price it, plate it or repeat it under seasonal pressure. We design for the service reality first.",
+    },
+    advisor: {
+      label: "Senior Spanish advisor",
+      title: "Local restaurant ownership experience, used carefully and honestly.",
+      copy: "Y&D can work with a senior Spanish hospitality advisor who spent more than five decades around restaurant ownership and operations in Barcelona, Mallorca and Ibiza. Until public consent is confirmed, we present this as advisory depth rather than a named public biography.",
+      note: "Generated team imagery on this site is illustrative brand photography. Real names, photos and restaurant lists will be published only after approval.",
+      stats: [
+        { value: "50+ years", label: "restaurant ownership and operating perspective" },
+        { value: "Barcelona", label: "urban restaurant market experience" },
+        { value: "Mallorca / Ibiza", label: "seasonal island hospitality context" },
+      ],
+    },
+    turnkey: {
+      label: "From idea to service",
+      title: "A complete restaurant, cafe or villa hospitality launch system.",
+      copy: "The work can start before the first dish is tested and continue through opening correction, so owners are not left with only a beautiful menu document.",
+      items: [
+        { title: "Concept and guest logic", copy: "Position the offer around guest demand, average check, service style and kitchen reality." },
+        { title: "Menu engineering", copy: "Build dish categories, position count, cost logic, prep overlap, upsell and dietary coverage." },
+        { title: "Kitchen operating system", copy: "Translate the menu into prep lists, portion standards, equipment rhythm and service flow." },
+        { title: "Team launch support", copy: "Prepare training notes, opening corrections and a practical checklist for the first weeks of service." },
+      ],
+    },
+    foreignOwners: {
+      label: "International owners in Spain",
+      title: "Built for owners who need Spanish-market hospitality support without losing control.",
+      copy: "Spain attracts restaurant buyers, villa operators and hospitality investors from across Europe. The offer should speak directly to people opening or relaunching in Spain, not only to local chefs.",
+      markets: [
+        { market: "UK / Ireland", copy: "Clear launch documentation, margin control and villa/catering formats for English-speaking owners." },
+        { market: "France / Belgium", copy: "French-Spanish hospitality perspective, premium guest expectations and service discipline." },
+        { market: "Germany / Netherlands", copy: "Structured operating logic, cost transparency, checklists and reliable repeatable service." },
+      ],
     },
     audiences: {
       label: "Who this is for",
@@ -357,13 +409,46 @@ export const localizedGrowthContent: Record<Language, GrowthContent> = {
   uk: {
     proof: [
       { value: "10+ років", label: "досвіду професійної кухні" },
-      { value: "Меню + цифри", label: "структура, заготовки і маржа" },
-      { value: "Marbella", label: "ресторани, кейтеринг і villa hospitality" },
+      { value: "50+ років", label: "іспанського hospitality-досвіду в advisory" },
+      { value: "Меню + цифри", label: "заготовки, маржа, навчання і запуск" },
+      { value: "Costa del Sol", label: "ресторани, кейтеринг і villa hospitality" },
     ],
     problem: {
       label: "Операційний ризик",
       title: "Більшість запусків меню ламається не в ідеях, а в операціях.",
       copy: "Меню може виглядати сильним на папері, але провалитися, якщо кухня не може його готувати, рахувати, видавати і повторювати під сезонним навантаженням. Ми спочатку проєктуємо під реальний сервіс.",
+    },
+    advisor: {
+      label: "Senior Spanish advisor",
+      title: "Локальний досвід ресторанного власника, поданий чесно.",
+      copy: "Y&D може працювати з досвідченим іспанським hospitality advisor, який понад п'ять десятиліть був пов'язаний з ресторанним бізнесом у Барселоні, на Майорці та Ібіці. До публічного погодження ми показуємо це як advisory depth, а не як відкриту біографію з іменем.",
+      note: "Згенеровані командні візуали на сайті є бренд-ілюстрацією. Реальні імена, фото та список ресторанів публікуються тільки після згоди.",
+      stats: [
+        { value: "50+ років", label: "погляду власника та оператора ресторанів" },
+        { value: "Barcelona", label: "досвід міського ресторанного ринку" },
+        { value: "Mallorca / Ibiza", label: "контекст сезонного island hospitality" },
+      ],
+    },
+    turnkey: {
+      label: "Від ідеї до сервісу",
+      title: "Повна система запуску ресторану, кафе або villa hospitality.",
+      copy: "Робота може починатися ще до тесту першої страви і продовжуватися через корекцію відкриття, щоб власник не залишився лише з красивим документом меню.",
+      items: [
+        { title: "Концепція і логіка гостя", copy: "Позиціонування оферу під попит, середній чек, стиль сервісу і реальність кухні." },
+        { title: "Menu engineering", copy: "Категорії, кількість позицій, собівартість, спільні заготовки, upsell і dietary logic." },
+        { title: "Операційна система кухні", copy: "Переклад меню в prep-листи, стандарти порцій, ритм обладнання і потік сервісу." },
+        { title: "Підтримка запуску команди", copy: "Нотатки для навчання, корекції відкриття і practical checklist на перші тижні." },
+      ],
+    },
+    foreignOwners: {
+      label: "International owners in Spain",
+      title: "Для власників, яким потрібна підтримка іспанського ринку без втрати контролю.",
+      copy: "Іспанія приваблює restaurant buyers, villa operators та hospitality investors з Європи. Офер має говорити не тільки до локальних шефів, а й до власників, які відкривають або перезапускають бізнес в Іспанії.",
+      markets: [
+        { market: "UK / Ireland", copy: "Документація запуску, контроль маржі та villa/catering формати для англомовних власників." },
+        { market: "France / Belgium", copy: "Французько-іспанський hospitality-погляд, преміальні очікування гостей і дисципліна сервісу." },
+        { market: "Germany / Netherlands", copy: "Структурна операційна логіка, прозорість витрат, checklists і стабільний повторюваний сервіс." },
+      ],
     },
     audiences: {
       label: "Для кого",
@@ -396,13 +481,46 @@ export const localizedGrowthContent: Record<Language, GrowthContent> = {
   es: {
     proof: [
       { value: "10+ años", label: "experiencia en cocinas profesionales" },
-      { value: "Menú + coste", label: "estructura, prep y lógica de margen" },
-      { value: "Marbella", label: "restaurantes, catering y villa hospitality" },
+      { value: "50+ años", label: "experiencia española en hospitality advisory" },
+      { value: "Menú + coste", label: "prep, margen, formación y lógica de apertura" },
+      { value: "Costa del Sol", label: "restaurantes, catering y villa hospitality" },
     ],
     problem: {
       label: "Riesgo operativo",
       title: "La mayoría de lanzamientos de menú fallan en operaciones, no en ideas.",
       copy: "Un menú puede verse fuerte en papel y fallar si la cocina no puede prepararlo, costearlo, emplatarlo o repetirlo bajo presión de temporada. Diseñamos primero para la realidad del servicio.",
+    },
+    advisor: {
+      label: "Senior Spanish advisor",
+      title: "Experiencia local de propietario hostelero, presentada con cuidado.",
+      copy: "Y&D puede trabajar con un asesor español senior de hospitality con más de cinco décadas alrededor de propiedad y operaciones de restaurantes en Barcelona, Mallorca e Ibiza. Hasta tener consentimiento público, lo presentamos como profundidad advisory, no como biografía pública con nombre.",
+      note: "La imagen de equipo generada en esta web es una fotografía de marca ilustrativa. Nombres reales, fotos y lista de restaurantes se publicarán solo con aprobación.",
+      stats: [
+        { value: "50+ años", label: "perspectiva de propietario y operador hostelero" },
+        { value: "Barcelona", label: "experiencia de mercado urbano" },
+        { value: "Mallorca / Ibiza", label: "contexto de hospitality estacional" },
+      ],
+    },
+    turnkey: {
+      label: "De idea a servicio",
+      title: "Sistema completo para lanzar restaurante, cafetería o villa hospitality.",
+      copy: "El trabajo puede empezar antes de probar el primer plato y continuar durante la corrección de apertura, para que el propietario no se quede solo con un documento bonito de menú.",
+      items: [
+        { title: "Concepto y lógica del cliente", copy: "Posicionar la oferta según demanda, ticket medio, estilo de servicio y realidad de cocina." },
+        { title: "Menu engineering", copy: "Categorías, número de posiciones, costes, prep compartida, upsell y cobertura dietary." },
+        { title: "Sistema operativo de cocina", copy: "Convertir el menú en prep lists, estándares de porción, ritmo de maquinaria y flujo de servicio." },
+        { title: "Soporte de lanzamiento", copy: "Notas de formación, correcciones de apertura y checklist práctico para las primeras semanas." },
+      ],
+    },
+    foreignOwners: {
+      label: "International owners in Spain",
+      title: "Para propietarios que necesitan apoyo del mercado español sin perder control.",
+      copy: "España atrae compradores de restaurantes, villa operators e inversores hospitality de toda Europa. La oferta debe hablar directamente a quienes abren o relanzan en España, no solo a chefs locales.",
+      markets: [
+        { market: "UK / Ireland", copy: "Documentación clara de apertura, control de margen y formatos villa/catering para propietarios angloparlantes." },
+        { market: "France / Belgium", copy: "Perspectiva franco-española de hospitality, expectativas premium y disciplina de servicio." },
+        { market: "Germany / Netherlands", copy: "Lógica operativa estructurada, transparencia de costes, checklists y servicio repetible." },
+      ],
     },
     audiences: {
       label: "Para quién",
