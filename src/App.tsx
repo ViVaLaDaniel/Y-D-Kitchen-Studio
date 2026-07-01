@@ -1,24 +1,25 @@
-import { useMemo, useState } from "react";
+import { type FormEvent, useMemo, useState } from "react";
 import teamHeroImage from "./assets/yd-hospitality-advisory-team.png";
 import {
-  dishGallery,
   localizedContent,
   localizedGrowthContent,
-  localizedMenuExamples,
   localizedPackages,
   localizedProcessSteps,
+  localizedWorkExamples,
   localizedWorkplaces,
   type Language,
 } from "./data";
 
 const whatsappNumber = "34642370671";
-const whatsappMessage = encodeURIComponent("Hello Y&D Kitchen Studio, I would like to discuss a menu or kitchen launch project.");
-const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+const buildWhatsAppUrl = (message: string) => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+const whatsappUrl = buildWhatsAppUrl("Hello Y&D Kitchen Studio, I would like to book a free 30-minute kitchen audit call.");
 
 const languages: Array<{ code: Language; label: string }> = [
   { code: "en", label: "EN" },
   { code: "uk", label: "UA" },
   { code: "es", label: "ES" },
+  { code: "fr", label: "FR" },
+  { code: "de", label: "DE" },
 ];
 
 function SectionTitle({ label, title, copy }: { label: string; title: string; copy?: string }) {
@@ -142,6 +143,7 @@ function OperatingAuthority({ lang }: { lang: Language }) {
               <div key={item.title}>
                 <h3>{item.title}</h3>
                 <p>{item.copy}</p>
+                <a className="micro-cta" href={whatsappUrl}>{item.cta}</a>
               </div>
             ))}
           </div>
@@ -284,81 +286,25 @@ function Experience({ lang }: { lang: Language }) {
   );
 }
 
-function DishPortfolio({ lang }: { lang: Language }) {
+function OurWork({ lang }: { lang: Language }) {
   const content = localizedContent[lang];
-  const growth = localizedGrowthContent[lang];
-  const categories = [growth.portfolioFilters.all, ...Array.from(new Set(dishGallery.map((dish) => dish.category[lang])))];
-  const [activeCategory, setActiveCategory] = useState(categories[0]);
-  const selectedCategory = categories.includes(activeCategory) ? activeCategory : growth.portfolioFilters.all;
-  const visibleDishes =
-    selectedCategory === growth.portfolioFilters.all
-      ? dishGallery
-      : dishGallery.filter((dish) => dish.category[lang] === selectedCategory);
+  const workExamples = localizedWorkExamples[lang];
 
   return (
     <section className="section portfolio-section" id="portfolio">
       <SectionTitle label={content.portfolio.label} title={content.portfolio.title} copy={content.portfolio.copy} />
-      <div className="category-chips" aria-label="Dish category filters">
-        {categories.map((category) => (
-          <button
-            className={selectedCategory === category ? "active" : ""}
-            key={category}
-            onClick={() => setActiveCategory(category)}
-            type="button"
-          >
-            {category}
-          </button>
-        ))}
-      </div>
       <div className="dish-rail" aria-label={content.portfolio.carouselLabel}>
-        {visibleDishes.map((dish, index) => (
-          <article className="dish-card reveal" key={`${dish.title.en}-${index}`}>
-            <img src={dish.image} alt={dish.title[lang]} loading={index < 6 ? "eager" : "lazy"} />
+        {workExamples.map((work, index) => (
+          <article className="dish-card work-card reveal" key={`${work.title}-${work.location}`}>
+            <img src={work.image} alt={`${work.title}, ${work.location}`} loading={index === 0 ? "eager" : "lazy"} />
             <div>
-              <span>{dish.category[lang]}</span>
-              <h3>{dish.title[lang]}</h3>
+              <span>{work.tag}</span>
+              <h3>{work.title}</h3>
+              <p>{work.location} - {work.result}</p>
             </div>
           </article>
         ))}
       </div>
-    </section>
-  );
-}
-
-function MenuExamples({ lang }: { lang: Language }) {
-  const content = localizedContent[lang];
-  const menus = localizedMenuExamples[lang];
-  const [activeMenuIndex, setActiveMenuIndex] = useState(0);
-  const activeMenu = menus[activeMenuIndex] ?? menus[0];
-
-  return (
-    <section className="band menu-section" id="menus">
-      <SectionTitle label={content.menus.label} title={content.menus.title} copy={content.menus.copy} />
-      <div className="menu-tabs" aria-label="Menu example selector">
-        {menus.map((menu, index) => (
-          <button
-            className={index === activeMenuIndex ? "active" : ""}
-            key={menu.title}
-            onClick={() => setActiveMenuIndex(index)}
-            type="button"
-          >
-            {menu.title}
-          </button>
-        ))}
-      </div>
-      <article className="menu-panel featured-menu reveal" key={activeMenu.title}>
-        <div className="menu-panel-header">
-          <span>{activeMenu.format}</span>
-          <h3>{activeMenu.title}</h3>
-          <p>{activeMenu.subtitle}</p>
-        </div>
-        <ul>
-          {activeMenu.items.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        <a href={whatsappUrl}>{content.cta.menu}</a>
-      </article>
     </section>
   );
 }
@@ -372,9 +318,10 @@ function Process({ lang }: { lang: Language }) {
       <SectionTitle label={content.process.label} title={content.process.title} copy={content.process.copy} />
       <div className="process-list">
         {steps.map((step, index) => (
-          <div className="process-step reveal" key={step}>
+          <div className="process-step reveal" key={step.title}>
             <span>{String(index + 1).padStart(2, "0")}</span>
-            <p>{step}</p>
+            <h3>{step.title}</h3>
+            <p>{step.copy}</p>
           </div>
         ))}
       </div>
@@ -388,14 +335,19 @@ function Packages({ lang }: { lang: Language }) {
   const packages = localizedPackages[lang];
 
   return (
-    <section className="section packages-section">
+    <section className="section packages-section" id="menus">
       <SectionTitle label={content.packages.label} title={content.packages.title} copy={content.packages.copy} />
       <div className="package-grid">
         {packages.map((pack) => (
           <article className={pack.recommended ? "package-card recommended reveal" : "package-card reveal"} key={pack.name}>
             {pack.recommended ? <b className="recommended-label">{growth.recommendedLabel}</b> : null}
-            <span>{pack.price}</span>
+            <span>{pack.scope}</span>
             <h3>{pack.name}</h3>
+            <div className="price-row">
+              <s>{pack.oldPrice}</s>
+              <strong>{pack.foundingPrice}</strong>
+            </div>
+            <p className="offer-note">{pack.offer}</p>
             <p>{pack.summary}</p>
             <ul>
               {pack.includes.map((item) => (
@@ -403,7 +355,7 @@ function Packages({ lang }: { lang: Language }) {
               ))}
             </ul>
             <a className="package-link" href={whatsappUrl}>
-              {growth.packagesCta}
+              {pack.cta}
             </a>
           </article>
         ))}
@@ -428,6 +380,20 @@ function Confidentiality({ lang }: { lang: Language }) {
 function Contact({ lang }: { lang: Language }) {
   const content = localizedContent[lang];
   const growth = localizedGrowthContent[lang];
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [projectType, setProjectType] = useState(growth.contactBrief.options[0]);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const message = [
+      "Hello Y&D Kitchen Studio, I would like to book a free 30-minute kitchen audit call.",
+      `Name: ${name || "-"}`,
+      `Contact: ${contact || "-"}`,
+      `Project type: ${projectType}`,
+    ].join("\n");
+    window.location.href = buildWhatsAppUrl(message);
+  };
 
   return (
     <footer className="contact-section" id="contact">
@@ -437,15 +403,27 @@ function Contact({ lang }: { lang: Language }) {
         <p>Marbella / San Pedro de Alcantara / Costa del Sol</p>
       </div>
       <div className="contact-links">
-        <div className="brief-card">
+        <form className="brief-card contact-form" onSubmit={handleSubmit}>
           <strong>{growth.contactBrief.title}</strong>
-          <ul>
-            {growth.contactBrief.items.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
-        <a href={whatsappUrl}>{content.cta.whatsapp}</a>
+          <p>{growth.contactBrief.copy}</p>
+          <label>
+            {growth.contactBrief.nameLabel}
+            <input value={name} onChange={(event) => setName(event.target.value)} name="name" autoComplete="name" />
+          </label>
+          <label>
+            {growth.contactBrief.contactLabel}
+            <input value={contact} onChange={(event) => setContact(event.target.value)} name="contact" autoComplete="email" />
+          </label>
+          <label>
+            {growth.contactBrief.typeLabel}
+            <select value={projectType} onChange={(event) => setProjectType(event.target.value)} name="projectType">
+              {growth.contactBrief.options.map((option) => (
+                <option key={option}>{option}</option>
+              ))}
+            </select>
+          </label>
+          <button type="submit">{growth.contactBrief.submit}</button>
+        </form>
       </div>
     </footer>
   );
@@ -467,8 +445,7 @@ export default function App() {
         <TurnkeySystem lang={lang} />
         <InternationalOwners lang={lang} />
         <Experience lang={lang} />
-        <DishPortfolio lang={lang} />
-        <MenuExamples lang={lang} />
+        <OurWork lang={lang} />
         <Process lang={lang} />
         <Packages lang={lang} />
         <Confidentiality lang={lang} />

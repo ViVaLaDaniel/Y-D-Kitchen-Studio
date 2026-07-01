@@ -1,4 +1,4 @@
-export type Language = "en" | "uk" | "es";
+export type Language = "en" | "uk" | "es" | "fr" | "de";
 
 type Localized = Record<Language, string>;
 
@@ -11,25 +11,29 @@ export type Workplace = {
   work: string[];
 };
 
-export type Dish = {
-  title: Localized;
-  category: Localized;
-  image: string;
-};
-
-export type MenuExample = {
-  title: string;
-  subtitle: string;
-  format: string;
-  items: string[];
-};
-
 export type Package = {
   name: string;
-  price: string;
+  scope: string;
+  oldPrice: string;
+  foundingPrice: string;
+  offer: string;
   summary: string;
   includes: string[];
+  cta: string;
   recommended?: boolean;
+};
+
+export type WorkExample = {
+  title: string;
+  location: string;
+  result: string;
+  image: string;
+  tag: string;
+};
+
+export type ProcessStep = {
+  title: string;
+  copy: string;
 };
 
 export type GrowthContent = {
@@ -54,13 +58,21 @@ export type GrowthContent = {
     copy: string;
     markets: Array<{ market: string; copy: string }>;
   };
-  audiences: { label: string; title: string; items: Array<{ title: string; copy: string }> };
+  audiences: { label: string; title: string; items: Array<{ title: string; copy: string; cta: string }> };
   deliverables: { label: string; title: string; items: string[] };
   riskAudit: { label: string; title: string; items: string[] };
   portfolioFilters: { all: string };
   packagesCta: string;
   recommendedLabel: string;
-  contactBrief: { title: string; items: string[] };
+  contactBrief: {
+    title: string;
+    copy: string;
+    nameLabel: string;
+    contactLabel: string;
+    typeLabel: string;
+    options: string[];
+    submit: string;
+  };
 };
 
 type PageContent = {
@@ -95,21 +107,21 @@ const image = (id: string, crop = "entropy") =>
 
 export const localizedContent: Record<Language, PageContent> = {
   en: {
-    nav: { experience: "Experience", portfolio: "Portfolio", menus: "Menus", contact: "Contact" },
+    nav: { experience: "Experience", portfolio: "Our Work", menus: "Pricing", contact: "Contact" },
     cta: {
-      portfolio: "See menu examples",
-      book: "Book a 20-minute menu profit review",
-      menu: "Build a menu like this",
+      portfolio: "See recent launch examples",
+      book: "Book a Free 30-Minute Kitchen Audit Call",
+      menu: "Book a Free 30-Minute Kitchen Audit Call",
       whatsapp: "WhatsApp",
     },
     hero: {
-      title: "Launch or relaunch a profitable restaurant menu in Costa del Sol",
-      copy: "Y&D Kitchen Studio helps restaurants, cafes, catering teams and villa hospitality projects turn a food idea into a service-ready kitchen system: menu, costing, prep flow, training and launch correction.",
+      title: "We launch profitable kitchens for restaurants, cafes and private villas across Marbella & the Costa del Sol.",
+      copy: "15+ years of hands-on restaurant operations. We design the menu, the kitchen flow and train your team, so you open on time, on budget, and profitable from week one.",
       imageLabel: "Premium hospitality advisory team planning a restaurant launch",
       imageAlt: "Hospitality consulting team planning a restaurant menu and kitchen launch",
-      cardOneLabel: "Complete launch support",
-      cardOneText: "Concept, menu, costs, prep, team training",
-      cardTwoText: "Marbella, Spain and foreign owners",
+      cardOneLabel: "Founding client pricing",
+      cardOneText: "First 5 projects only",
+      cardTwoText: "International owners in Spain",
     },
     about: {
       label: "About us",
@@ -134,10 +146,10 @@ export const localizedContent: Record<Language, PageContent> = {
       copy: "Each project shaped how we think about realistic menus: dishes that sell, prep that works, portions that can be repeated and service that does not collapse under pressure.",
     },
     portfolio: {
-      label: "30-dish portfolio",
-      title: "A cinematic food rail for menu direction and service style.",
-      copy: "Temporary premium visuals for v1. Replace with real Y&D dishes before public launch for stronger proof.",
-      carouselLabel: "Dish portfolio carousel",
+      label: "Our Work",
+      title: "Recent launch and concept menu samples.",
+      copy: "Visual proof should support the consulting offer, not make Y&D look like a restaurant. These samples show venue type, location and the operational result behind the food.",
+      carouselLabel: "Recent launch examples",
     },
     menus: {
       label: "Ready menu examples",
@@ -146,36 +158,36 @@ export const localizedContent: Record<Language, PageContent> = {
     },
     process: {
       label: "Process",
-      title: "From concept to stable kitchen service.",
-      copy: "The goal is not just beautiful dishes. It is a menu your team can prep, cost, plate and repeat.",
+      title: "A clear four-step launch system.",
+      copy: "No vague consulting. Each step turns risk into a concrete operating decision.",
     },
     packages: {
-      label: "Packages",
-      title: "Clear starting points for different launch stages.",
-      copy: "Every package is adapted after we understand your concept, equipment, staff level and target guest.",
+      label: "Pricing",
+      title: "Transparent EUR starting prices for serious projects.",
+      copy: "Founding client pricing is limited to the first 5 projects. Large-scale launches stay custom because stations, covers, staffing and on-site support change the real scope.",
     },
     confidentiality: {
       title: "We show menu structure, dish direction and public references.",
       copy: "Client recipes, tech cards, costing and internal production documents remain confidential. A strong menu is created for your equipment, suppliers, team, margin, season and guests.",
     },
-    contact: { title: "Tell us what you want to launch." },
+    contact: { title: "Book your free kitchen audit call." },
   },
   uk: {
-    nav: { experience: "Досвід", portfolio: "Портфоліо", menus: "Меню", contact: "Контакти" },
+    nav: { experience: "Досвід", portfolio: "Our Work", menus: "Ціни", contact: "Контакти" },
     cta: {
-      portfolio: "Дивитись приклади меню",
-      book: "Записатись на 20-хв. аудит меню",
-      menu: "Зібрати таке меню",
+      portfolio: "Дивитись приклади запусків",
+      book: "Book a Free 30-Minute Kitchen Audit Call",
+      menu: "Book a Free 30-Minute Kitchen Audit Call",
       whatsapp: "WhatsApp",
     },
     hero: {
-      title: "Запустіть прибуткове меню, яке команда може повторювати",
-      copy: "Ми створюємо меню, яке команда може готувати, рахувати, видавати і повторювати під реальним навантаженням: кафе, ресторани, кейтеринг і приватні вілли на Costa del Sol.",
+      title: "We launch profitable kitchens for restaurants, cafes and private villas across Marbella & the Costa del Sol.",
+      copy: "15+ years of hands-on restaurant operations. We design the menu, the kitchen flow and train your team, so you open on time, on budget, and profitable from week one.",
       imageLabel: "Преміальні ресторанні страви та робота кухні",
       imageAlt: "Шеф оформлює преміальну ресторанну страву",
-      cardOneLabel: "Системи меню",
-      cardOneText: "Собівартість, заготовки, порції, запуск",
-      cardTwoText: "Hospitality на Costa del Sol",
+      cardOneLabel: "Founding client pricing",
+      cardOneText: "First 5 projects only",
+      cardTwoText: "International owners in Spain",
     },
     about: {
       label: "Про нас",
@@ -200,10 +212,10 @@ export const localizedContent: Record<Language, PageContent> = {
       copy: "Кожен проєкт сформував наш підхід до реальних меню: страви мають продаватися, заготовки мають працювати, порції мають повторюватися, а сервіс не має ламатися під навантаженням.",
     },
     portfolio: {
-      label: "30 страв",
-      title: "Карусель страв для напрямку меню та стилю подачі.",
-      copy: "У v1 використані тимчасові premium-візуали. Перед публічним просуванням краще замінити їх на реальні страви Y&D.",
-      carouselLabel: "Карусель портфоліо страв",
+      label: "Our Work",
+      title: "Приклади запусків і концепт-меню.",
+      copy: "Візуали мають підтверджувати консалтинг, а не створювати враження ресторанного меню. Ці картки показують формат, локацію і операційний результат.",
+      carouselLabel: "Приклади запусків",
     },
     menus: {
       label: "Приклади готових меню",
@@ -212,41 +224,41 @@ export const localizedContent: Record<Language, PageContent> = {
     },
     process: {
       label: "Процес",
-      title: "Від концепції до стабільної роботи кухні.",
-      copy: "Ціль не тільки в красивих стравах. Меню має бути таким, щоб команда могла його готувати, рахувати, видавати і повторювати.",
+      title: "Чітка система запуску у 4 кроки.",
+      copy: "Без розмитого консалтингу: кожен крок перетворює ризик на конкретне операційне рішення.",
     },
     packages: {
-      label: "Пакети",
-      title: "Зрозумілі стартові формати для різних етапів запуску.",
-      copy: "Кожен пакет адаптується після аналізу концепції, обладнання, рівня команди та цільового гостя.",
+      label: "Ціни",
+      title: "Прозорі стартові ціни в EUR для серйозних проєктів.",
+      copy: "Founding client pricing діє тільки для перших 5 проєктів. Великі запуски рахуються індивідуально через різний масштаб кухонь, команди і супроводу.",
     },
     confidentiality: {
       title: "Ми показуємо структуру меню, напрям страв і публічні приклади.",
       copy: "Рецепти клієнтів, техкарти, собівартість і внутрішні виробничі документи залишаються конфіденційними. Сильне меню створюється під ваше обладнання, постачальників, команду, маржу, сезон і гостей.",
     },
-    contact: { title: "Розкажіть, що ви хочете запустити." },
+    contact: { title: "Book your free kitchen audit call." },
   },
   es: {
-    nav: { experience: "Experiencia", portfolio: "Portfolio", menus: "Menús", contact: "Contacto" },
+    nav: { experience: "Experiencia", portfolio: "Our Work", menus: "Precios", contact: "Contacto" },
     cta: {
-      portfolio: "Ver ejemplos de menú",
-      book: "Reservar revisión de menú de 20 min",
-      menu: "Crear un menú así",
+      portfolio: "Ver ejemplos de lanzamientos",
+      book: "Book a Free 30-Minute Kitchen Audit Call",
+      menu: "Book a Free 30-Minute Kitchen Audit Call",
       whatsapp: "WhatsApp",
     },
     hero: {
-      title: "Lanza un menú rentable y repetible en Marbella",
-      copy: "Diseñamos menús que tu equipo puede preparar, costear, emplatar y repetir bajo presión real de servicio: cafeterías, restaurantes, catering y villas privadas en Costa del Sol.",
-      imageLabel: "Platos premium de restaurante y trabajo de cocina",
-      imageAlt: "Chef emplatando un plato premium de restaurante",
-      cardOneLabel: "Sistemas de menú",
-      cardOneText: "Costes, preparación, porciones, lanzamiento",
-      cardTwoText: "Hospitality en Costa del Sol",
+      title: "We launch profitable kitchens for restaurants, cafes and private villas across Marbella & the Costa del Sol.",
+      copy: "15+ years of hands-on restaurant operations. We design the menu, the kitchen flow and train your team, so you open on time, on budget, and profitable from week one.",
+      imageLabel: "Equipo premium de asesoría hospitality planificando una apertura",
+      imageAlt: "Equipo de consultoría hospitality planificando un menú y una apertura de cocina",
+      cardOneLabel: "Founding client pricing",
+      cardOneText: "First 5 projects only",
+      cardTwoText: "International owners in Spain",
     },
     about: {
       label: "Sobre nosotros",
-      title: "Trabajo real de cocina, disciplina operativa y pensamiento de menú.",
-      copy: "No vendemos plantillas genéricas. Construimos menús alrededor de la cocina real, el equipo, la maquinaria, el ritmo de servicio y el modelo de negocio.",
+      title: "Ejecución de cocina, disciplina de gestión y asesoría hostelera española senior.",
+      copy: "No vendemos plantillas genéricas. Construimos menús alrededor de la cocina real, el equipo, la maquinaria, el ritmo de servicio, el perfil del cliente local y el modelo de negocio.",
       profiles: [
         {
           name: "Daniel Zamiatin",
@@ -266,10 +278,10 @@ export const localizedContent: Record<Language, PageContent> = {
       copy: "Cada proyecto formó nuestra forma de crear menús realistas: platos que se venden, preparación que funciona, porciones repetibles y un servicio que no se rompe bajo presión.",
     },
     portfolio: {
-      label: "Portfolio de 30 platos",
-      title: "Una galería gastronómica para dirección de menú y estilo de servicio.",
-      copy: "Visuales premium temporales para v1. Antes de promoción pública conviene sustituirlos por platos reales de Y&D.",
-      carouselLabel: "Carrusel de portfolio gastronómico",
+      label: "Our Work",
+      title: "Ejemplos de lanzamientos y concept menus.",
+      copy: "Las fotos deben apoyar la prueba B2B, no parecer una carta de restaurante. Estas tarjetas muestran tipo de proyecto, ubicación y resultado operativo.",
+      carouselLabel: "Ejemplos de lanzamientos",
     },
     menus: {
       label: "Ejemplos de menús listos",
@@ -278,19 +290,151 @@ export const localizedContent: Record<Language, PageContent> = {
     },
     process: {
       label: "Proceso",
-      title: "De concepto a servicio de cocina estable.",
-      copy: "El objetivo no son solo platos bonitos. El menú debe poder prepararse, costearse, emplatarse y repetirse por el equipo.",
+      title: "Un sistema claro de lanzamiento en 4 pasos.",
+      copy: "Sin consultoría vaga: cada paso convierte el riesgo en una decisión operativa concreta.",
     },
     packages: {
-      label: "Paquetes",
-      title: "Puntos de partida claros para distintas fases de lanzamiento.",
-      copy: "Cada paquete se adapta después de entender concepto, equipamiento, nivel del equipo y cliente objetivo.",
+      label: "Precios",
+      title: "Precios iniciales transparentes en EUR para proyectos serios.",
+      copy: "Founding client pricing limitado a los primeros 5 proyectos. Los grandes lanzamientos se presupuestan a medida por estaciones, equipo y soporte en sitio.",
     },
     confidentiality: {
       title: "Mostramos estructura de menú, dirección de platos y referencias públicas.",
       copy: "Recetas de clientes, fichas técnicas, costes y documentos internos de producción permanecen confidenciales. Un menú fuerte se crea para tu equipamiento, proveedores, equipo, margen, temporada y clientes.",
     },
-    contact: { title: "Cuéntanos qué quieres lanzar." },
+    contact: { title: "Book your free kitchen audit call." },
+  },
+  fr: {
+    nav: { experience: "Experience", portfolio: "Our Work", menus: "Prix", contact: "Contact" },
+    cta: {
+      portfolio: "Voir les exemples de lancements",
+      book: "Book a Free 30-Minute Kitchen Audit Call",
+      menu: "Book a Free 30-Minute Kitchen Audit Call",
+      whatsapp: "WhatsApp",
+    },
+    hero: {
+      title: "We launch profitable kitchens for restaurants, cafes and private villas across Marbella & the Costa del Sol.",
+      copy: "15+ years of hands-on restaurant operations. We design the menu, the kitchen flow and train your team, so you open on time, on budget, and profitable from week one.",
+      imageLabel: "Equipe premium de conseil hospitality preparant un lancement restaurant",
+      imageAlt: "Equipe de conseil hospitality planifiant un menu de restaurant et un lancement cuisine",
+      cardOneLabel: "Founding client pricing",
+      cardOneText: "First 5 projects only",
+      cardTwoText: "International owners in Spain",
+    },
+    about: {
+      label: "A propos",
+      title: "Execution cuisine, discipline de gestion et conseil hospitality espagnol senior.",
+      copy: "Nous ne vendons pas de modeles generiques. Nous construisons les menus autour de la vraie cuisine, de l'equipe, du materiel, du rythme de service, du client local et du modele economique.",
+      profiles: [
+        {
+          name: "Daniel Zamiatin",
+          copy: "Experience cote cuisine: chaud, grill, cuisines de production, catering et service sous pression.",
+          points: ["10+ ans en cuisines professionnelles", "Execution menu, prep planning et flux de service", "Formats europeens, Europe de l'Est, grill et catering"],
+        },
+        {
+          name: "Yuliia Horbach",
+          copy: "Manager et responsable process: controle qualite, operations de commandes, logique de menus catering et documentation.",
+          points: ["Standards qualite et packaging", "Portions, recettes et controles process", "Controle proprietaire de la commande a la livraison"],
+        },
+      ],
+    },
+    experience: {
+      label: "Experience et menus",
+      title: "Restaurants, cuisines de production et operations catering.",
+      copy: "Chaque projet a construit notre facon de penser des menus realistes: des plats qui se vendent, une prep qui fonctionne, des portions repetables et un service qui ne casse pas sous pression.",
+    },
+    portfolio: {
+      label: "Our Work",
+      title: "Exemples de lancements et concept menus.",
+      copy: "Les visuels doivent soutenir l'offre de conseil, pas donner l'impression d'un restaurant. Ces cartes montrent le type de projet, la localisation et le resultat operationnel.",
+      carouselLabel: "Exemples de lancements",
+    },
+    menus: {
+      label: "Exemples de menus prets",
+      title: "Structures de menus que nous pouvons adapter a votre vraie cuisine.",
+      copy: "Ces exemples montrent une direction, un format et une logique. Ce ne sont pas des copies de menus clients ni des documents techniques confidentiels.",
+    },
+    process: {
+      label: "Processus",
+      title: "Un systeme clair de lancement en 4 etapes.",
+      copy: "Pas de conseil vague: chaque etape transforme un risque en decision operationnelle concrete.",
+    },
+    packages: {
+      label: "Prix",
+      title: "Prix de depart transparents en EUR pour projets serieux.",
+      copy: "Founding client pricing limite aux 5 premiers projets. Les grands lancements restent sur devis selon stations, equipe et support sur site.",
+    },
+    confidentiality: {
+      title: "Nous montrons la structure du menu, la direction des plats et des references publiques.",
+      copy: "Les recettes clients, fiches techniques, couts et documents internes restent confidentiels. Un menu solide se cree pour votre materiel, vos fournisseurs, votre equipe, votre marge, votre saison et vos clients.",
+    },
+    contact: { title: "Book your free kitchen audit call." },
+  },
+  de: {
+    nav: { experience: "Erfahrung", portfolio: "Our Work", menus: "Preise", contact: "Kontakt" },
+    cta: {
+      portfolio: "Launch-Beispiele ansehen",
+      book: "Book a Free 30-Minute Kitchen Audit Call",
+      menu: "Book a Free 30-Minute Kitchen Audit Call",
+      whatsapp: "WhatsApp",
+    },
+    hero: {
+      title: "We launch profitable kitchens for restaurants, cafes and private villas across Marbella & the Costa del Sol.",
+      copy: "15+ years of hands-on restaurant operations. We design the menu, the kitchen flow and train your team, so you open on time, on budget, and profitable from week one.",
+      imageLabel: "Premium Hospitality-Beratungsteam plant einen Restaurantlaunch",
+      imageAlt: "Hospitality-Beratungsteam plant ein Restaurantmenu und einen Kuchenlaunch",
+      cardOneLabel: "Founding client pricing",
+      cardOneText: "First 5 projects only",
+      cardTwoText: "International owners in Spain",
+    },
+    about: {
+      label: "Uber uns",
+      title: "Kuchenausfuhrung, Managementdisziplin und spanische Senior-Hospitality-Beratung.",
+      copy: "Wir verkaufen keine generischen Menuvorlagen. Wir bauen Menus um die reale Kuche, das Team, die Ausstattung, den Servicerhythmus, das lokale Gastprofil und das Geschaftsmodell.",
+      profiles: [
+        {
+          name: "Daniel Zamiatin",
+          copy: "Kuchenerfahrung in Warmposten, Grill, Produktionskuchen, Catering und Service unter Druck.",
+          points: ["10+ Jahre in professionellen Kuchen", "Menuausfuhrung, Prep Planning und Service Flow", "Europaische, osteuropaische, Grill- und Catering-Formate"],
+        },
+        {
+          name: "Yuliia Horbach",
+          copy: "Managerin und Prozessverantwortliche fur Qualitatskontrolle, Bestellablaufe, Catering-Menu-Logik und Dokumentation.",
+          points: ["Qualitats- und Packaging-Standards", "Portionen, Rezepte und Prozesschecks", "Kontrolle vom Auftrag bis zur Lieferung"],
+        },
+      ],
+    },
+    experience: {
+      label: "Erfahrung und Menus",
+      title: "Restaurants, Produktionskuchen und Catering-Operations.",
+      copy: "Jedes Projekt hat unseren Blick auf realistische Menus geformt: Gerichte, die sich verkaufen, Prep, der funktioniert, wiederholbare Portionen und Service, der unter Druck stabil bleibt.",
+    },
+    portfolio: {
+      label: "Our Work",
+      title: "Launch-Beispiele und Concept Menu Samples.",
+      copy: "Bilder sollen das B2B-Angebot beweisen, nicht wie eine Restaurantkarte wirken. Diese Karten zeigen Projekttyp, Standort und operatives Ergebnis.",
+      carouselLabel: "Launch-Beispiele",
+    },
+    menus: {
+      label: "Fertige Menubeispiele",
+      title: "Menustrukturen, die wir fur Ihre reale Kuche entwickeln konnen.",
+      copy: "Diese Beispiele zeigen Richtung, Format und Logik. Es sind keine Kundenmenus und keine vertraulichen technischen Dokumente.",
+    },
+    process: {
+      label: "Prozess",
+      title: "Ein klarer Launch-Prozess in 4 Schritten.",
+      copy: "Keine vage Beratung: jeder Schritt macht aus Risiko eine konkrete operative Entscheidung.",
+    },
+    packages: {
+      label: "Preise",
+      title: "Transparente EUR-Startpreise fur ernsthafte Projekte.",
+      copy: "Founding client pricing gilt nur fur die ersten 5 Projekte. Grosse Launches bleiben individuell wegen Stationen, Team und Vor-Ort-Support.",
+    },
+    confidentiality: {
+      title: "Wir zeigen Menustruktur, Gerichterichtung und offentliche Referenzen.",
+      copy: "Kundenrezepte, technische Karten, Kalkulationen und interne Produktionsdokumente bleiben vertraulich. Ein starkes Menu entsteht fur Ihre Ausstattung, Lieferanten, Ihr Team, Ihre Marge, Saison und Gaste.",
+    },
+    contact: { title: "Book your free kitchen audit call." },
   },
 };
 
@@ -330,6 +474,30 @@ export const localizedWorkplaces: Record<Language, Workplace[]> = {
     { name: "Fit Food", city: "Polonia", owner: "Yuliia", role: "Manager / calidad y proceso de menú", menuFocus: "Comidas saludables, porciones equilibradas, pedidos", work: ["Lógica de porciones y menú", "Control de calidad", "Proceso de pedidos y packaging"] },
     { name: "Domowe Obiady", city: "Polonia", owner: "Yuliia", role: "Manager / operaciones", menuFocus: "Operación diaria de almuerzos y atención", work: ["Coordinación de pedidos", "Estándares de servicio", "Comunicación con cocina"] },
     { name: "Meridians", city: "Polonia", owner: "Yuliia", role: "Manager / responsable de catering", menuFocus: "Menús de catering, porciones, fichas técnicas, control de producción", work: ["Planificación de menú", "Documentación de porciones y recetas", "Control completo desde pedido hasta entrega"] },
+  ],
+  fr: [
+    { name: "Mafia", city: "Pologne", owner: "Daniel", role: "Chef / operations cuisine", menuFocus: "Plats europeens, chaud, rythme de service", work: ["Production sous pression", "Preparation de poste et mise en place", "Regularite qualite et dressage"] },
+    { name: "Shashlyk YAN", city: "Pologne", owner: "Daniel", role: "Chef / grill et chaud", menuFocus: "Grill, viande, sauces, banquets", work: ["Flux de grill", "Marinades et logique de portions", "Prep par lots pour service intense"] },
+    { name: "Dolce-Vita", city: "Pologne", owner: "Daniel", role: "Chef", menuFocus: "Classiques cafe et restaurant", work: ["Production quotidienne", "Execution du menu", "Planification de la prep"] },
+    { name: "Domowe Obiady", city: "Pologne", owner: "Daniel", role: "Chef / cuisine de production", menuFocus: "Menus dejeuner, comfort food, volume eleve", work: ["Rotation quotidienne de menu", "Portions controlees par le cout", "Organisation de service rapide"] },
+    { name: "Mama-Wilda", city: "Pologne", owner: "Daniel", role: "Chef", menuFocus: "Format restaurant maison", work: ["Plats chauds", "Systemes de prep", "Flux de service"] },
+    { name: "Meridians", city: "Pologne", owner: "Daniel", role: "Chef / cuisine catering", menuFocus: "Evenements, plateaux catering, production a l'echelle", work: ["Preparation d'evenements", "Portions banquet", "Coordination cuisine"] },
+    { name: "Kebab-Lavica", city: "Pologne", owner: "Daniel", role: "Production cuisine", menuFocus: "Fast casual, sauces, prep, vitesse de service", work: ["Montage station prep", "Flux sauces et garnitures", "Sortie rapide sous charge"] },
+    { name: "Fit Food", city: "Pologne", owner: "Yuliia", role: "Manager / qualite et process menu", menuFocus: "Repas healthy, portions equilibrees, operations de commandes", work: ["Logique de portions et menu", "Controle qualite", "Process commandes et packaging"] },
+    { name: "Domowe Obiady", city: "Pologne", owner: "Yuliia", role: "Manager / operations", menuFocus: "Operations dejeuner et parcours client", work: ["Coordination des commandes", "Standards de service", "Communication cuisine"] },
+    { name: "Meridians", city: "Pologne", owner: "Yuliia", role: "Manager / responsable catering", menuFocus: "Menus catering, portions, fiches techniques, controle production", work: ["Planification menu", "Documentation portions et recettes", "Controle complet de la commande a la livraison"] },
+  ],
+  de: [
+    { name: "Mafia", city: "Polen", owner: "Daniel", role: "Chef / Kuchenoperations", menuFocus: "Europaische Gerichte, Warmposten, Servicerhythmus", work: ["Produktion unter Druck", "Stationsvorbereitung und Mise en place", "Konstante Qualitat und Anrichten"] },
+    { name: "Shashlyk YAN", city: "Polen", owner: "Daniel", role: "Chef / Grill und Warmposten", menuFocus: "Grill, Fleisch, Saucen, Bankette", work: ["Grill-Workflow", "Marinaden und Portionslogik", "Batch Prep fur intensiven Service"] },
+    { name: "Dolce-Vita", city: "Polen", owner: "Daniel", role: "Chef", menuFocus: "Cafe- und Restaurantklassiker", work: ["Tagliche Produktion", "Menuausfuhrung", "Prep-Planung"] },
+    { name: "Domowe Obiady", city: "Polen", owner: "Daniel", role: "Chef / Produktionskuche", menuFocus: "Lunchmenus, Comfort Food, hohes Volumen", work: ["Tagliche Menuration", "Kostenbewusste Portionen", "Schnelle Serviceorganisation"] },
+    { name: "Mama-Wilda", city: "Polen", owner: "Daniel", role: "Chef", menuFocus: "Hauslicher Restaurantstil", work: ["Warme Gerichte", "Prep-Systeme", "Service Flow"] },
+    { name: "Meridians", city: "Polen", owner: "Daniel", role: "Chef / Cateringkuche", menuFocus: "Events, Cateringplatten, Produktionsskalierung", work: ["Event-Prep", "Bankettportionen", "Kuchenkoordination"] },
+    { name: "Kebab-Lavica", city: "Polen", owner: "Daniel", role: "Kuchenproduktion", menuFocus: "Fast casual, Saucen, Prep, Servicegeschwindigkeit", work: ["Prep-Station Setup", "Saucen- und Garniturenflow", "Schnelle Ausgabe unter Last"] },
+    { name: "Fit Food", city: "Polen", owner: "Yuliia", role: "Managerin / Qualitat und Menuprozess", menuFocus: "Healthy Meals, balancierte Portionen, Bestellablaufe", work: ["Portions- und Menulogik", "Qualitatskontrolle", "Bestell- und Packagingprozess"] },
+    { name: "Domowe Obiady", city: "Polen", owner: "Yuliia", role: "Managerin / Operations", menuFocus: "Tagliche Lunch-Operations und Kundenablauf", work: ["Bestellkoordination", "Servicestandards", "Kuchenkommunikation"] },
+    { name: "Meridians", city: "Polen", owner: "Yuliia", role: "Managerin / Cateringprozess", menuFocus: "Cateringmenus, Portionen, technische Karten, Produktionskontrolle", work: ["Menuplanung", "Portions- und Rezeptdokumentation", "Kontrolle vom Auftrag bis zur Lieferung"] },
   ],
 };
 
@@ -380,12 +548,11 @@ export const localizedGrowthContent: Record<Language, GrowthContent> = {
     },
     audiences: {
       label: "Who this is for",
-      title: "Built for owners who need control before service starts.",
+      title: "Three high-value hospitality segments, three different operating risks.",
       items: [
-        { title: "Restaurants & cafes", copy: "Menu relaunch, new concepts, brunch, hot section and service-ready dishes." },
-        { title: "Catering & events", copy: "Portions, transport, prep lists, plating standards and predictable delivery flow." },
-        { title: "Villa hospitality", copy: "Premium private menus for families, retreats, concierge teams and seasonal guests." },
-        { title: "Small kitchens", copy: "Lean menus for limited equipment, storage and staff without losing quality." },
+        { title: "Restaurants & Cafes", copy: "For owners opening or relaunching a venue and needing menu, kitchen flow and team readiness before service starts.", cta: "Plan a venue launch" },
+        { title: "Villas & Private Dining", copy: "For villa owners and private chefs serving international guests who expect premium service without restaurant infrastructure.", cta: "Design private dining" },
+        { title: "Catering Teams", copy: "For event and catering businesses scaling operations, transport, prep lists and consistent portions.", cta: "Scale catering operations" },
       ],
     },
     deliverables: {
@@ -402,8 +569,13 @@ export const localizedGrowthContent: Record<Language, GrowthContent> = {
     packagesCta: "Discuss this package",
     recommendedLabel: "Most requested",
     contactBrief: {
-      title: "For a faster answer, send us:",
-      items: ["Concept", "Kitchen size", "City", "Opening or relaunch date"],
+      title: "Start with a short brief.",
+      copy: "Send the essentials and we will reply on WhatsApp with the next step.",
+      nameLabel: "Name",
+      contactLabel: "Email or WhatsApp",
+      typeLabel: "What are you looking for?",
+      options: ["Restaurant", "Villa", "Catering", "Other"],
+      submit: "Send brief on WhatsApp",
     },
   },
   uk: {
@@ -452,12 +624,11 @@ export const localizedGrowthContent: Record<Language, GrowthContent> = {
     },
     audiences: {
       label: "Для кого",
-      title: "Для власників, яким потрібен контроль до старту сервісу.",
+      title: "Три сегменти з різними операційними ризиками.",
       items: [
-        { title: "Ресторани та кафе", copy: "Перезапуск меню, нові концепції, бранч, гарячий цех і страви, готові до сервісу." },
-        { title: "Кейтеринг і події", copy: "Порції, транспорт, prep-листи, стандарти подачі та прогнозована доставка." },
-        { title: "Villa hospitality", copy: "Преміальні приватні меню для сімей, retreats, concierge-команд і сезонних гостей." },
-        { title: "Малі кухні", copy: "Лаконічні меню для обмеженого обладнання, складу і команди без втрати якості." },
+        { title: "Restaurants & Cafes", copy: "Для власників, які відкривають або перезапускають заклад і потребують меню, kitchen flow та готової команди.", cta: "Plan a venue launch" },
+        { title: "Villas & Private Dining", copy: "Для власників вілл і private chefs, які працюють з міжнародними гостями преміум-рівня.", cta: "Design private dining" },
+        { title: "Catering Teams", copy: "Для event і catering команд, які масштабують prep, транспорт, порції та стабільну видачу.", cta: "Scale catering operations" },
       ],
     },
     deliverables: {
@@ -474,8 +645,13 @@ export const localizedGrowthContent: Record<Language, GrowthContent> = {
     packagesCta: "Обговорити пакет",
     recommendedLabel: "Найчастіше обирають",
     contactBrief: {
-      title: "Для швидшої відповіді надішліть:",
-      items: ["Концепцію", "Розмір кухні", "Місто", "Дату відкриття або перезапуску"],
+      title: "Почніть з короткого brief.",
+      copy: "Надішліть основне, і ми відповімо у WhatsApp з наступним кроком.",
+      nameLabel: "Ім'я",
+      contactLabel: "Email або WhatsApp",
+      typeLabel: "Що вам потрібно?",
+      options: ["Restaurant", "Villa", "Catering", "Other"],
+      submit: "Send brief on WhatsApp",
     },
   },
   es: {
@@ -524,12 +700,11 @@ export const localizedGrowthContent: Record<Language, GrowthContent> = {
     },
     audiences: {
       label: "Para quién",
-      title: "Para propietarios que necesitan control antes de abrir servicio.",
+      title: "Tres segmentos premium con riesgos operativos distintos.",
       items: [
-        { title: "Restaurantes y cafeterías", copy: "Relaunch de menú, nuevos conceptos, brunch, caliente y platos listos para servicio." },
-        { title: "Catering y eventos", copy: "Porciones, transporte, prep lists, estándares de emplatado y flujo previsible." },
-        { title: "Villa hospitality", copy: "Menús privados premium para familias, retreats, concierge teams y temporada." },
-        { title: "Cocinas pequeñas", copy: "Menús lean para equipamiento, almacén y personal limitados sin perder calidad." },
+        { title: "Restaurants & Cafes", copy: "Para propietarios que abren o relanzan un local y necesitan menú, flujo de cocina y equipo listo antes del servicio.", cta: "Plan a venue launch" },
+        { title: "Villas & Private Dining", copy: "Para villa owners y private chefs que atienden a huéspedes internacionales con expectativas premium.", cta: "Design private dining" },
+        { title: "Catering Teams", copy: "Para equipos de eventos y catering que escalan operaciones, transporte, prep lists y porciones constantes.", cta: "Scale catering operations" },
       ],
     },
     deliverables: {
@@ -546,111 +721,259 @@ export const localizedGrowthContent: Record<Language, GrowthContent> = {
     packagesCta: "Hablar de este paquete",
     recommendedLabel: "Más solicitado",
     contactBrief: {
-      title: "Para responder más rápido, envíanos:",
-      items: ["Concepto", "Tamaño de cocina", "Ciudad", "Fecha de apertura o relaunch"],
+      title: "Empieza con un brief corto.",
+      copy: "Envía lo esencial y responderemos por WhatsApp con el siguiente paso.",
+      nameLabel: "Nombre",
+      contactLabel: "Email o WhatsApp",
+      typeLabel: "Qué estás buscando?",
+      options: ["Restaurant", "Villa", "Catering", "Other"],
+      submit: "Send brief on WhatsApp",
+    },
+  },
+  fr: {
+    proof: [
+      { value: "10+ ans", label: "experience en cuisines professionnelles" },
+      { value: "50+ ans", label: "experience espagnole en hospitality advisory" },
+      { value: "Menu + couts", label: "prep, marge, formation et logique de lancement" },
+      { value: "Costa del Sol", label: "restaurants, catering et villa hospitality" },
+    ],
+    problem: {
+      label: "Risque operationnel",
+      title: "La plupart des lancements de menus echouent en operations, pas dans l'idee.",
+      copy: "Un menu peut etre fort sur le papier et echouer si la cuisine ne peut pas le preparer, le chiffrer, le dresser ou le repeter sous pression saisonniere. Nous concevons d'abord pour la realite du service.",
+    },
+    advisor: {
+      label: "Senior Spanish advisor",
+      title: "Experience locale de proprietaire restaurateur, presentee avec prudence.",
+      copy: "Y&D peut travailler avec un conseiller espagnol senior en hospitality, avec plus de cinq decennies autour de la propriete et des operations de restaurants a Barcelone, Majorque et Ibiza. Jusqu'a consentement public, nous le presentons comme une profondeur advisory, pas comme une biographie publique nommee.",
+      note: "L'image d'equipe generee sur ce site est une photographie de marque illustrative. Les vrais noms, photos et listes de restaurants seront publies uniquement apres accord.",
+      stats: [
+        { value: "50+ ans", label: "perspective de proprietaire et operateur restaurant" },
+        { value: "Barcelona", label: "experience du marche urbain" },
+        { value: "Mallorca / Ibiza", label: "contexte hospitality saisonnier" },
+      ],
+    },
+    turnkey: {
+      label: "De l'idee au service",
+      title: "Systeme complet pour lancer restaurant, cafe ou villa hospitality.",
+      copy: "Le travail peut commencer avant le premier test plat et continuer pendant les corrections d'ouverture, afin que le proprietaire ne reste pas avec un simple beau document de menu.",
+      items: [
+        { title: "Concept et logique client", copy: "Positionner l'offre selon la demande, le ticket moyen, le style de service et la realite cuisine." },
+        { title: "Menu engineering", copy: "Construire categories, nombre de positions, couts, prep partagee, upsell et couverture dietary." },
+        { title: "Systeme operationnel cuisine", copy: "Transformer le menu en prep lists, standards de portions, rythme materiel et flux de service." },
+        { title: "Support lancement equipe", copy: "Preparer notes de formation, corrections d'ouverture et checklist pratique pour les premieres semaines." },
+      ],
+    },
+    foreignOwners: {
+      label: "International owners in Spain",
+      title: "Pour les proprietaires qui veulent le marche espagnol sans perdre le controle.",
+      copy: "L'Espagne attire acheteurs de restaurants, villa operators et investisseurs hospitality de toute l'Europe. L'offre doit parler directement a ceux qui ouvrent ou relancent en Espagne, pas seulement aux chefs locaux.",
+      markets: [
+        { market: "UK / Ireland", copy: "Documentation claire de lancement, controle de marge et formats villa/catering pour proprietaires anglophones." },
+        { market: "France / Belgium", copy: "Perspective franco-espagnole hospitality, attentes premium et discipline de service." },
+        { market: "Germany / Netherlands", copy: "Logique operationnelle structuree, transparence des couts, checklists et service repetable." },
+      ],
+    },
+    audiences: {
+      label: "Pour qui",
+      title: "Trois segments premium avec des risques operationnels differents.",
+      items: [
+        { title: "Restaurants & Cafes", copy: "Pour proprietaires qui ouvrent ou relancent un lieu et veulent menu, flux cuisine et equipe prete avant le service.", cta: "Plan a venue launch" },
+        { title: "Villas & Private Dining", copy: "Pour proprietaires de villas et private chefs servant des invites internationaux premium.", cta: "Design private dining" },
+        { title: "Catering Teams", copy: "Pour equipes evenementielles et catering qui scalent prep, transport, portions et regularite.", cta: "Scale catering operations" },
+      ],
+    },
+    deliverables: {
+      label: "Ce que vous recevez",
+      title: "Les materiels qui transforment un menu en systeme cuisine fonctionnel.",
+      items: ["Architecture menu", "Logique de couts", "Flux prep et service", "Direction fiches techniques", "Standards de portions", "Notes de formation", "Checklist correction lancement"],
+    },
+    riskAudit: {
+      label: "Audit rentabilite menu",
+      title: "Avant de creer des plats, nous verifions ce qui peut casser votre marge ou votre service.",
+      items: ["Limites materiel", "Niveau equipe", "Capacite stockage", "Disponibilite fournisseurs", "Client cible", "Ticket moyen", "Vitesse de service"],
+    },
+    portfolioFilters: { all: "Tout" },
+    packagesCta: "Discuter cette offre",
+    recommendedLabel: "Le plus demande",
+    contactBrief: {
+      title: "Commencez par un brief court.",
+      copy: "Envoyez l'essentiel et nous repondrons sur WhatsApp avec la prochaine etape.",
+      nameLabel: "Nom",
+      contactLabel: "Email ou WhatsApp",
+      typeLabel: "Que recherchez-vous?",
+      options: ["Restaurant", "Villa", "Catering", "Other"],
+      submit: "Send brief on WhatsApp",
+    },
+  },
+  de: {
+    proof: [
+      { value: "10+ Jahre", label: "Erfahrung in professionellen Kuchen" },
+      { value: "50+ Jahre", label: "spanische Hospitality-Advisory-Erfahrung" },
+      { value: "Menu + Kosten", label: "Prep, Marge, Training und Launch-Logik" },
+      { value: "Costa del Sol", label: "Restaurants, Catering und Villa Hospitality" },
+    ],
+    problem: {
+      label: "Operatives Risiko",
+      title: "Die meisten Menulaunches scheitern an Operations, nicht an Ideen.",
+      copy: "Ein Menu kann auf Papier stark wirken und trotzdem scheitern, wenn die Kuche es unter saisonalem Druck nicht vorbereiten, kalkulieren, anrichten oder wiederholen kann. Wir planen zuerst fur die Servicerealitat.",
+    },
+    advisor: {
+      label: "Senior Spanish advisor",
+      title: "Lokale Restaurant-Eigentumererfahrung, ehrlich und vorsichtig genutzt.",
+      copy: "Y&D kann mit einem spanischen Senior-Hospitality-Advisor arbeiten, der mehr als funf Jahrzehnte rund um Restaurantbesitz und Operations in Barcelona, Mallorca und Ibiza verbracht hat. Bis zur offentlichen Zustimmung beschreiben wir das als Advisory-Tiefe, nicht als namentliche Biografie.",
+      note: "Das generierte Teambild auf dieser Website ist illustrative Markenfotografie. Reale Namen, Fotos und Restaurantlisten werden nur nach Freigabe veroffentlicht.",
+      stats: [
+        { value: "50+ Jahre", label: "Perspektive aus Restaurantbesitz und Betrieb" },
+        { value: "Barcelona", label: "Erfahrung im urbanen Restaurantmarkt" },
+        { value: "Mallorca / Ibiza", label: "saisonaler Hospitality-Kontext" },
+      ],
+    },
+    turnkey: {
+      label: "Von Idee zu Service",
+      title: "Komplettes System fur Restaurant-, Cafe- oder Villa-Hospitality-Launches.",
+      copy: "Die Arbeit kann vor dem ersten Gerichtetest beginnen und durch die Opening-Korrektur weiterlaufen, damit Eigentumer nicht nur ein schones Menudokument erhalten.",
+      items: [
+        { title: "Konzept und Gastlogik", copy: "Angebot nach Nachfrage, Durchschnittsbon, Servicestil und Kuchenrealitat positionieren." },
+        { title: "Menu Engineering", copy: "Kategorien, Positionsanzahl, Kostenlogik, geteilte Prep, Upsell und Dietary Coverage bauen." },
+        { title: "Kuchenbetriebssystem", copy: "Menu in Prep-Listen, Portionsstandards, Equipment-Rhythmus und Service Flow ubersetzen." },
+        { title: "Team Launch Support", copy: "Trainingsnotizen, Opening-Korrekturen und praktische Checkliste fur die ersten Wochen vorbereiten." },
+      ],
+    },
+    foreignOwners: {
+      label: "International owners in Spain",
+      title: "Fur Eigentumer, die spanische Markthilfe brauchen, ohne Kontrolle zu verlieren.",
+      copy: "Spanien zieht Restaurantkaufer, Villa Operators und Hospitality-Investoren aus ganz Europa an. Das Angebot muss direkt zu Menschen sprechen, die in Spanien eroffnen oder einen Relaunch planen, nicht nur zu lokalen Chefs.",
+      markets: [
+        { market: "UK / Ireland", copy: "Klare Launch-Dokumentation, Margenkontrolle und Villa/Catering-Formate fur englischsprachige Eigentumer." },
+        { market: "France / Belgium", copy: "Franzosisch-spanische Hospitality-Perspektive, Premium-Gasterwartungen und Servicedisziplin." },
+        { market: "Germany / Netherlands", copy: "Strukturierte Operationslogik, Kostentransparenz, Checklisten und wiederholbarer Service." },
+      ],
+    },
+    audiences: {
+      label: "Fur wen",
+      title: "Drei Premium-Segmente mit unterschiedlichen operativen Risiken.",
+      items: [
+        { title: "Restaurants & Cafes", copy: "Fur Eigentumer, die einen Standort eroffnen oder erneuern und Menu, Kuchenflow und Team-Readiness brauchen.", cta: "Plan a venue launch" },
+        { title: "Villas & Private Dining", copy: "Fur Villa Owners und Private Chefs mit internationalen Premium-Gasten.", cta: "Design private dining" },
+        { title: "Catering Teams", copy: "Fur Event- und Catering-Teams, die Prep, Transport, Portionen und konstante Ausgabe skalieren.", cta: "Scale catering operations" },
+      ],
+    },
+    deliverables: {
+      label: "Was Sie erhalten",
+      title: "Materialien, die ein Menu in ein funktionierendes Kuchensystem verwandeln.",
+      items: ["Menuarchitektur", "Kostenlogik", "Prep- und Service Flow", "Richtung fur technische Karten", "Portionsstandards", "Trainingsnotizen", "Launch-Korrektur-Checklist"],
+    },
+    riskAudit: {
+      label: "Menu Profit Audit",
+      title: "Bevor wir Gerichte entwickeln, prufen wir, was Marge oder Service brechen kann.",
+      items: ["Equipment-Grenzen", "Teamniveau", "Lagerkapazitat", "Lieferantenverfugbarkeit", "Zielgast", "Durchschnittsbon", "Servicegeschwindigkeit"],
+    },
+    portfolioFilters: { all: "Alle" },
+    packagesCta: "Dieses Paket besprechen",
+    recommendedLabel: "Am meisten gefragt",
+    contactBrief: {
+      title: "Starten Sie mit einem kurzen Brief.",
+      copy: "Senden Sie das Wesentliche, und wir antworten auf WhatsApp mit dem nachsten Schritt.",
+      nameLabel: "Name",
+      contactLabel: "Email oder WhatsApp",
+      typeLabel: "Wonach suchen Sie?",
+      options: ["Restaurant", "Villa", "Catering", "Other"],
+      submit: "Send brief on WhatsApp",
     },
   },
 };
 
-const dish = (en: string, uk: string, es: string, category: Localized, photoId: string): Dish => ({
-  title: { en, uk, es },
-  category,
-  image: image(photoId),
-});
-
-const categories = {
-  breakfast: { en: "Breakfasts", uk: "Сніданки", es: "Desayunos" },
-  healthy: { en: "Healthy meals", uk: "Healthy-страви", es: "Comida saludable" },
-  salads: { en: "Salads", uk: "Салати", es: "Ensaladas" },
-  grill: { en: "Grill", uk: "Гриль", es: "Parrilla" },
-  hot: { en: "Hot dishes", uk: "Гарячі страви", es: "Platos calientes" },
-  seafood: { en: "Seafood", uk: "Морепродукти", es: "Mariscos" },
-  catering: { en: "Catering trays", uk: "Кейтеринг", es: "Bandejas de catering" },
-  desserts: { en: "Desserts", uk: "Десерти", es: "Postres" },
-  prep: { en: "Sauces/prep", uk: "Соуси/заготовки", es: "Salsas/prep" },
-  drinks: { en: "Drinks", uk: "Напої", es: "Bebidas" },
-} satisfies Record<string, Localized>;
-
-export const dishGallery: Dish[] = [
-  dish("Mediterranean breakfast plate", "Середземноморський сніданок", "Desayuno mediterráneo", categories.breakfast, "photo-1533089860892-a7c6f0a88666"),
-  dish("Soft egg brunch toast", "Бранч-тост з м'яким яйцем", "Tostada brunch con huevo", categories.breakfast, "photo-1525351484163-7529414344d8"),
-  dish("Pancakes with berries", "Панкейки з ягодами", "Pancakes con frutos rojos", categories.breakfast, "photo-1528207776546-365bb710ee93"),
-  dish("Granola and yogurt bowl", "Гранола з йогуртом", "Bowl de granola y yogur", categories.healthy, "photo-1511690743698-d9d85f2fbf38"),
-  dish("Balanced chicken lunch box", "Збалансований chicken lunch box", "Lunch box equilibrado de pollo", categories.healthy, "photo-1546069901-ba9599a7e63c"),
-  dish("Salmon fitness bowl", "Фітнес-боул з лососем", "Fitness bowl de salmón", categories.healthy, "photo-1512621776951-a57141f2eefd"),
-  dish("Greek salad service", "Грецький салат для сервісу", "Servicio de ensalada griega", categories.salads, "photo-1540420773420-3366772f4999"),
-  dish("Burrata tomato plate", "Бурата з томатами", "Burrata con tomate", categories.salads, "photo-1551183053-bf91a1d81141"),
-  dish("Citrus seafood salad", "Цитрусовий салат з морепродуктами", "Ensalada cítrica de mariscos", categories.salads, "photo-1604908176997-125f25cc6f3d"),
-  dish("Grilled beef skewer", "Яловичий шашлик на грилі", "Brocheta de ternera a la parrilla", categories.grill, "photo-1555939594-58d7cb561ad1"),
-  dish("Charcoal chicken grill", "Курка на вугіллі", "Pollo a la brasa", categories.grill, "photo-1598515214211-89d3c73ae83b"),
-  dish("Steak with herb butter", "Стейк з трав'яним маслом", "Steak con mantequilla de hierbas", categories.grill, "photo-1558030006-450675393462"),
-  dish("Seared fish fillet", "Філе риби на сковороді", "Filete de pescado sellado", categories.hot, "photo-1467003909585-2f8a72700288"),
-  dish("Cream pasta station", "Паста з кремовим соусом", "Pasta cremosa de servicio", categories.hot, "photo-1551183053-bf91a1d81141"),
-  dish("Risotto service plate", "Ризото для сервісу", "Risotto de servicio", categories.hot, "photo-1476124369491-e7addf5db371"),
-  dish("Shrimp with garlic butter", "Креветки з часниковим маслом", "Gambas con mantequilla de ajo", categories.seafood, "photo-1565680018434-b513d5e5fd47"),
-  dish("Seafood sharing plate", "Тарілка морепродуктів", "Plato de mariscos para compartir", categories.seafood, "photo-1534080564583-6be75777b70a"),
-  dish("Tuna starter", "Закуска з тунцем", "Entrante de atún", categories.seafood, "photo-1604908176997-125f25cc6f3d"),
-  dish("Catering antipasti tray", "Кейтеринг-плато antipasti", "Bandeja de antipasti", categories.catering, "photo-1543352634-a1c51d9f1fa7"),
-  dish("Event dessert board", "Десертна дошка для заходу", "Tabla de postres para evento", categories.catering, "photo-1488477181946-6428a0291777"),
-  dish("Private buffet setup", "Приватний buffet setup", "Montaje de buffet privado", categories.catering, "photo-1555244162-803834f70033"),
-  dish("Chocolate dessert", "Шоколадний десерт", "Postre de chocolate", categories.desserts, "photo-1488477304112-4944851de03d"),
-  dish("Berry tart portion", "Порційний ягідний тарт", "Porción de tarta de frutos rojos", categories.desserts, "photo-1464305795204-6f5bbfc7fb81"),
-  dish("Cream cake service", "Кремовий торт для сервісу", "Servicio de tarta cremosa", categories.desserts, "photo-1551024506-0bccd828d307"),
-  dish("Prep sauces mise en place", "Mise en place соусів", "Mise en place de salsas", categories.prep, "photo-1556911220-bff31c812dba"),
-  dish("Kitchen herb prep", "Підготовка зелені", "Preparación de hierbas", categories.prep, "photo-1506368249639-73a05d6f6488"),
-  dish("Batch prep station", "Станція batch prep", "Estación de preparación por lotes", categories.prep, "photo-1556909114-f6e7ad7d3136"),
-  dish("Citrus iced drink", "Цитрусовий cold drink", "Bebida fría cítrica", categories.drinks, "photo-1544145945-f90425340c7e"),
-  dish("Restaurant coffee service", "Ресторанна подача кави", "Servicio de café", categories.drinks, "photo-1495474472287-4d71bcdd2085"),
-  dish("Fresh bar garnish", "Свіжий bar garnish", "Garnish fresco de bar", categories.drinks, "photo-1513558161293-cdaf765ed2fd"),
-];
-
-export const localizedMenuExamples: Record<Language, MenuExample[]> = {
+export const localizedWorkExamples: Record<Language, WorkExample[]> = {
   en: [
-    { title: "Cafe Brunch Menu", subtitle: "Compact daytime menu for a cafe with fast prep and strong visual dishes.", format: "Breakfast / brunch / coffee pairing", items: ["Turkish eggs, garlic yogurt, chili butter", "Smoked salmon toast, cucumber, herbs", "Pancakes, berries, vanilla cream", "Chicken Caesar croissant", "Burrata tomato salad", "Cold brew tonic"] },
-    { title: "Healthy / Fit Food Menu", subtitle: "Portion-aware meals for delivery, take away or weekly nutrition plans.", format: "Balanced bowls / protein meals / clean sauces", items: ["Chicken quinoa bowl, avocado, citrus dressing", "Salmon rice box, greens, sesame sauce", "Turkey meatballs, buckwheat, vegetables", "Greek yogurt breakfast jar", "Protein pancakes, berry compote", "Low-calorie herb sauce set"] },
-    { title: "Catering Event Menu", subtitle: "Designed for batch prep, transport, clean plating and predictable portions.", format: "Private events / villa dinners / business catering", items: ["Antipasti grazing board", "Mini bruschetta selection", "Grilled chicken skewers", "Beef sliders, house sauce", "Seafood salad cups", "Dessert miniatures tray"] },
-    { title: "Small Kitchen Launch Menu", subtitle: "A restrained launch menu for limited equipment, storage and staff.", format: "Low waste / cross-used prep / simple service flow", items: ["Soup of the day", "Chicken schnitzel plate", "Pasta with seasonal sauce", "Chef salad with grilled protein", "House dessert", "Signature sauce base for 4 dishes"] },
-    { title: "Grill & Hot Section Menu", subtitle: "Hot dishes built around timing, mise en place and consistent output.", format: "Grill / hot section / service pressure", items: ["Marinated chicken shashlyk", "Beef kebab plate", "Grilled vegetables, herb oil", "Garlic butter prawns", "Crispy potatoes, aioli", "House pickles and sauce set"] },
+    { title: "Beachfront restaurant", location: "Marbella", result: "Concept menu sample - structured for food cost, prep overlap and fast service.", image: image("photo-1559339352-11d035aa65de"), tag: "Restaurant launch" },
+    { title: "Private villa dining", location: "Costa del Sol", result: "Concept menu sample - breakfast, lunch and dinner logic for international villa guests.", image: image("photo-1551218808-94e220e084d2"), tag: "Villa hospitality" },
+    { title: "Event catering operation", location: "Andalusia", result: "Concept menu sample - batch prep, transport, plating and portion control.", image: image("photo-1555244162-803834f70033"), tag: "Catering system" },
   ],
   uk: [
-    { title: "Меню кафе / бранч", subtitle: "Компактне денне меню для кафе зі швидкими заготовками та візуально сильними стравами.", format: "Сніданки / бранч / кава", items: ["Турецькі яйця, часниковий йогурт, chili butter", "Тост з копченим лососем, огірком і зеленню", "Панкейки, ягоди, ванільний крем", "Круасан Chicken Caesar", "Салат бурата-томати", "Cold brew tonic"] },
-    { title: "Healthy / Fit Food меню", subtitle: "Порційні страви для доставки, take away або тижневих nutrition-планів.", format: "Balanced bowls / protein meals / clean sauces", items: ["Chicken quinoa bowl, авокадо, citrus dressing", "Salmon rice box, зелень, sesame sauce", "Turkey meatballs, гречка, овочі", "Грецький йогурт breakfast jar", "Protein pancakes, ягідний компот", "Набір low-calorie herb sauces"] },
-    { title: "Кейтеринг-меню для події", subtitle: "Під batch prep, транспорт, чисту подачу та прогнозовані порції.", format: "Private events / villa dinners / business catering", items: ["Antipasti grazing board", "Mini bruschetta selection", "Курячі skewers на грилі", "Beef sliders, house sauce", "Seafood salad cups", "Dessert miniatures tray"] },
-    { title: "Меню запуску маленької кухні", subtitle: "Стримане меню для обмеженого обладнання, складу та команди.", format: "Low waste / спільні заготовки / простий сервіс", items: ["Суп дня", "Chicken schnitzel plate", "Паста з сезонним соусом", "Chef salad з grilled protein", "House dessert", "Signature sauce base для 4 страв"] },
-    { title: "Grill & Hot Section меню", subtitle: "Гарячі страви, побудовані навколо таймінгу, mise en place і стабільної видачі.", format: "Гриль / гарячий цех / сервіс під навантаженням", items: ["Маринований chicken shashlyk", "Beef kebab plate", "Овочі на грилі, herb oil", "Креветки з garlic butter", "Crispy potatoes, aioli", "House pickles and sauce set"] },
+    { title: "Beachfront restaurant", location: "Marbella", result: "Concept menu sample - структура під food cost, спільні заготовки і швидкий сервіс.", image: image("photo-1559339352-11d035aa65de"), tag: "Restaurant launch" },
+    { title: "Private villa dining", location: "Costa del Sol", result: "Concept menu sample - breakfast, lunch and dinner логіка для міжнародних гостей вілли.", image: image("photo-1551218808-94e220e084d2"), tag: "Villa hospitality" },
+    { title: "Event catering operation", location: "Andalusia", result: "Concept menu sample - batch prep, транспорт, подача і контроль порцій.", image: image("photo-1555244162-803834f70033"), tag: "Catering system" },
   ],
   es: [
-    { title: "Menú Cafe Brunch", subtitle: "Menú compacto de día para cafetería, con preparación rápida y platos visuales.", format: "Desayuno / brunch / café", items: ["Huevos turcos, yogur de ajo, mantequilla chili", "Tostada de salmón ahumado, pepino y hierbas", "Pancakes, frutos rojos, crema de vainilla", "Croissant Chicken Caesar", "Ensalada de burrata y tomate", "Cold brew tonic"] },
-    { title: "Menú Healthy / Fit Food", subtitle: "Comidas porcionadas para delivery, take away o planes semanales.", format: "Balanced bowls / proteínas / clean sauces", items: ["Chicken quinoa bowl, aguacate, citrus dressing", "Salmon rice box, verdes, salsa de sésamo", "Albóndigas de pavo, trigo sarraceno, verduras", "Greek yogurt breakfast jar", "Protein pancakes, compota de frutos rojos", "Set de salsas herbales low-calorie"] },
-    { title: "Menú Catering Event", subtitle: "Diseñado para batch prep, transporte, emplatado limpio y porciones previsibles.", format: "Eventos privados / cenas en villa / business catering", items: ["Antipasti grazing board", "Mini bruschetta selection", "Brochetas de pollo a la parrilla", "Beef sliders, house sauce", "Seafood salad cups", "Miniaturas de postre"] },
-    { title: "Menú Small Kitchen Launch", subtitle: "Menú contenido para equipamiento, almacén y personal limitados.", format: "Low waste / prep compartida / servicio simple", items: ["Sopa del día", "Chicken schnitzel plate", "Pasta con salsa de temporada", "Chef salad con grilled protein", "House dessert", "Base de salsa signature para 4 platos"] },
-    { title: "Menú Grill & Hot Section", subtitle: "Platos calientes construidos alrededor de timing, mise en place y salida constante.", format: "Parrilla / caliente / presión de servicio", items: ["Chicken shashlyk marinado", "Beef kebab plate", "Verduras a la parrilla, herb oil", "Gambas con garlic butter", "Crispy potatoes, aioli", "House pickles and sauce set"] },
+    { title: "Beachfront restaurant", location: "Marbella", result: "Concept menu sample - estructurado para food cost, prep compartida y servicio rápido.", image: image("photo-1559339352-11d035aa65de"), tag: "Restaurant launch" },
+    { title: "Private villa dining", location: "Costa del Sol", result: "Concept menu sample - lógica breakfast, lunch and dinner para huéspedes internacionales.", image: image("photo-1551218808-94e220e084d2"), tag: "Villa hospitality" },
+    { title: "Event catering operation", location: "Andalusia", result: "Concept menu sample - batch prep, transporte, emplatado y control de porciones.", image: image("photo-1555244162-803834f70033"), tag: "Catering system" },
+  ],
+  fr: [
+    { title: "Beachfront restaurant", location: "Marbella", result: "Concept menu sample - structure pour food cost, prep partagee et service rapide.", image: image("photo-1559339352-11d035aa65de"), tag: "Restaurant launch" },
+    { title: "Private villa dining", location: "Costa del Sol", result: "Concept menu sample - logique breakfast, lunch and dinner pour invites internationaux.", image: image("photo-1551218808-94e220e084d2"), tag: "Villa hospitality" },
+    { title: "Event catering operation", location: "Andalusia", result: "Concept menu sample - batch prep, transport, dressage et controle portions.", image: image("photo-1555244162-803834f70033"), tag: "Catering system" },
+  ],
+  de: [
+    { title: "Beachfront restaurant", location: "Marbella", result: "Concept menu sample - strukturiert fur Food Cost, geteilte Prep und schnellen Service.", image: image("photo-1559339352-11d035aa65de"), tag: "Restaurant launch" },
+    { title: "Private villa dining", location: "Costa del Sol", result: "Concept menu sample - Breakfast, Lunch and Dinner Logik fur internationale Villengaste.", image: image("photo-1551218808-94e220e084d2"), tag: "Villa hospitality" },
+    { title: "Event catering operation", location: "Andalusia", result: "Concept menu sample - Batch Prep, Transport, Anrichten und Portionskontrolle.", image: image("photo-1555244162-803834f70033"), tag: "Catering system" },
   ],
 };
 
 export const localizedPackages: Record<Language, Package[]> = {
   en: [
-    { name: "Menu Profit Audit", price: "Quote after review", summary: "A focused diagnostic for owners who need to see where menu margin, waste or service speed is leaking.", includes: ["Menu review", "Food-cost risk map", "Quick-win recommendations", "WhatsApp follow-up notes"] },
-    { name: "Menu Engineering Sprint", price: "Quote after kitchen review", summary: "A practical menu system for restaurants or cafes that need structure, costing logic and repeatable dishes.", includes: ["Menu architecture", "Costing sheet direction", "Recipe-card direction", "Upsell and dietary logic"] },
-    { name: "Kitchen Launch System", price: "Quote after kitchen review", summary: "Menu, prep flow, service rhythm and team training for launches or serious relaunches.", includes: ["Opening menu", "Prep and service flow", "Staff training notes", "Launch correction checklist"], recommended: true },
-    { name: "Villa & Catering Menu System", price: "Quote after brief", summary: "Premium private menus and production logic for villa managers, events, retreats and catering.", includes: ["Breakfast/lunch/dinner templates", "Dietary variants", "Shopping and prep system", "Event flow"] },
+    { name: "Menu & Kitchen Audit", scope: "Any scale, focused problem", oldPrice: "from €1,800", foundingPrice: "from €1,500", offer: "Founding client pricing - first 5 projects only", summary: "A focused diagnostic for owners who need to see where menu margin, waste or service speed is leaking.", includes: ["Menu and kitchen flow review", "Food-cost and operational risk map", "Priority fixes for margin and service", "Clear next-step recommendation"], cta: "Get a Custom Quote" },
+    { name: "Small Kitchen Launch", scope: "Up to 40-50 seats", oldPrice: "from €15,000", foundingPrice: "from €12,500", offer: "Founding client pricing - first 5 projects only", summary: "A practical launch system for compact restaurants, cafes and private dining operations.", includes: ["Menu architecture and dish direction", "Prep flow and station logic", "Basic team training notes", "Launch correction checklist"], cta: "Get a Custom Quote" },
+    { name: "Full Kitchen Launch", scope: "50-120 seats", oldPrice: "from €35,000", foundingPrice: "from €29,000", offer: "Founding client pricing - first 5 projects only", summary: "A full pre-opening engagement for owners who need menu, kitchen systems and team readiness.", includes: ["Concept and menu engineering", "Kitchen flow and recipe-card direction", "Hiring/training support materials", "Soft-launch support plan"], cta: "Get a Custom Quote", recommended: true },
+    { name: "Large-Scale Launch", scope: "120+ seats, including 250-300-seat projects", oldPrice: "from €60,000", foundingPrice: "starting from €52,000", offer: "Custom proposal after scope review", summary: "For large venues, multi-station kitchens, banquet or multi-concept projects where the real scope must be sized carefully.", includes: ["Multi-station kitchen operating map", "Extended menu and production logic", "Training system for larger teams", "Staged rollout and on-site support plan"], cta: "Request a Custom Proposal" },
   ],
   uk: [
-    { name: "Menu Profit Audit", price: "Оцінка після review", summary: "Сфокусована діагностика для власників, яким потрібно побачити втрати маржі, waste або швидкості сервісу.", includes: ["Review меню", "Карта ризиків food cost", "Швидкі рекомендації", "Нотатки після WhatsApp-розмови"] },
-    { name: "Menu Engineering Sprint", price: "Оцінка після огляду кухні", summary: "Практична система меню для ресторанів або кафе: структура, логіка собівартості та повторювані страви.", includes: ["Архітектура меню", "Напрям costing sheet", "Напрям recipe cards", "Upsell і dietary logic"] },
-    { name: "Kitchen Launch System", price: "Оцінка після огляду кухні", summary: "Меню, потік заготовок, ритм сервісу і навчання команди для запуску або серйозного relaunch.", includes: ["Opening menu", "Потік prep і сервісу", "Нотатки для навчання", "Checklist корекцій запуску"], recommended: true },
-    { name: "Villa & Catering Menu System", price: "Оцінка після brief", summary: "Преміальні приватні меню та логіка виробництва для villa managers, подій, retreats і catering.", includes: ["Шаблони breakfast/lunch/dinner", "Dietary variants", "Shopping and prep system", "Event flow"] },
+    { name: "Menu & Kitchen Audit", scope: "Будь-який масштаб, точкова задача", oldPrice: "from €1,800", foundingPrice: "from €1,500", offer: "Founding client pricing - first 5 projects only", summary: "Діагностика для власників, яким потрібно знайти втрати маржі, waste або швидкості сервісу.", includes: ["Review меню і kitchen flow", "Карта food-cost та операційних ризиків", "Пріоритетні fixes для маржі і сервісу", "Чіткий next-step план"], cta: "Get a Custom Quote" },
+    { name: "Small Kitchen Launch", scope: "До 40-50 місць", oldPrice: "from €15,000", foundingPrice: "from €12,500", offer: "Founding client pricing - first 5 projects only", summary: "Система запуску для компактних ресторанів, кафе і private dining.", includes: ["Архітектура меню і напрям страв", "Prep flow і логіка станцій", "Базові training notes для команди", "Checklist корекцій запуску"], cta: "Get a Custom Quote" },
+    { name: "Full Kitchen Launch", scope: "50-120 місць", oldPrice: "from €35,000", foundingPrice: "from €29,000", offer: "Founding client pricing - first 5 projects only", summary: "Повний pre-opening для власників, яким потрібні меню, системи кухні і готовність команди.", includes: ["Concept and menu engineering", "Kitchen flow і напрям recipe cards", "Матеріали для hiring/training support", "Soft-launch support plan"], cta: "Get a Custom Quote", recommended: true },
+    { name: "Large-Scale Launch", scope: "120+ місць, включно з 250-300", oldPrice: "from €60,000", foundingPrice: "starting from €52,000", offer: "Custom proposal after scope review", summary: "Для великих закладів, кількох цехів, банкетів або multi-concept проектів.", includes: ["Multi-station kitchen operating map", "Розширена логіка меню і production", "Training system для великих команд", "Staged rollout і on-site support plan"], cta: "Request a Custom Proposal" },
   ],
   es: [
-    { name: "Menu Profit Audit", price: "Presupuesto tras revisión", summary: "Diagnóstico enfocado para propietarios que necesitan ver fugas de margen, waste o velocidad de servicio.", includes: ["Review del menú", "Mapa de riesgo de food cost", "Recomendaciones rápidas", "Notas de seguimiento por WhatsApp"] },
-    { name: "Menu Engineering Sprint", price: "Presupuesto tras revisar cocina", summary: "Sistema práctico de menú para restaurantes o cafeterías que necesitan estructura, costes y platos repetibles.", includes: ["Arquitectura de menú", "Dirección de costing sheet", "Dirección de recipe cards", "Lógica de upsell y dietary"] },
-    { name: "Kitchen Launch System", price: "Presupuesto tras revisar cocina", summary: "Menú, flujo de prep, ritmo de servicio y formación para aperturas o relaunch serio.", includes: ["Opening menu", "Flujo de prep y servicio", "Notas de formación", "Checklist de corrección de lanzamiento"], recommended: true },
-    { name: "Villa & Catering Menu System", price: "Presupuesto tras brief", summary: "Menús privados premium y lógica de producción para villa managers, eventos, retreats y catering.", includes: ["Plantillas breakfast/lunch/dinner", "Dietary variants", "Sistema de compra y prep", "Event flow"] },
+    { name: "Menu & Kitchen Audit", scope: "Cualquier escala, problema puntual", oldPrice: "from €1,800", foundingPrice: "from €1,500", offer: "Founding client pricing - first 5 projects only", summary: "Diagnóstico para propietarios que necesitan encontrar fugas de margen, waste o velocidad de servicio.", includes: ["Review de menú y kitchen flow", "Mapa de riesgo food-cost y operativo", "Fixes prioritarios para margen y servicio", "Recomendación clara del siguiente paso"], cta: "Get a Custom Quote" },
+    { name: "Small Kitchen Launch", scope: "Hasta 40-50 plazas", oldPrice: "from €15,000", foundingPrice: "from €12,500", offer: "Founding client pricing - first 5 projects only", summary: "Sistema de lanzamiento para restaurantes compactos, cafeterías y private dining.", includes: ["Arquitectura de menú y dirección de platos", "Prep flow y lógica de estaciones", "Notas básicas de formación", "Checklist de corrección de apertura"], cta: "Get a Custom Quote" },
+    { name: "Full Kitchen Launch", scope: "50-120 plazas", oldPrice: "from €35,000", foundingPrice: "from €29,000", offer: "Founding client pricing - first 5 projects only", summary: "Pre-opening completo para propietarios que necesitan menú, sistemas de cocina y equipo listo.", includes: ["Concept and menu engineering", "Kitchen flow y dirección de recipe cards", "Materiales de hiring/training support", "Soft-launch support plan"], cta: "Get a Custom Quote", recommended: true },
+    { name: "Large-Scale Launch", scope: "120+ plazas, incluidos proyectos de 250-300", oldPrice: "from €60,000", foundingPrice: "starting from €52,000", offer: "Custom proposal after scope review", summary: "Para locales grandes, cocinas multi-estación, banquetes o proyectos multi-concept.", includes: ["Multi-station kitchen operating map", "Lógica extendida de menú y producción", "Training system para equipos grandes", "Staged rollout y on-site support plan"], cta: "Request a Custom Proposal" },
+  ],
+  fr: [
+    { name: "Menu & Kitchen Audit", scope: "Toute echelle, probleme cible", oldPrice: "from €1,800", foundingPrice: "from €1,500", offer: "Founding client pricing - first 5 projects only", summary: "Diagnostic pour proprietaires qui veulent identifier fuites de marge, waste ou vitesse de service.", includes: ["Review menu et kitchen flow", "Carte food-cost et risques operationnels", "Fixes prioritaires pour marge et service", "Recommandation claire next step"], cta: "Get a Custom Quote" },
+    { name: "Small Kitchen Launch", scope: "Jusqu'a 40-50 couverts", oldPrice: "from €15,000", foundingPrice: "from €12,500", offer: "Founding client pricing - first 5 projects only", summary: "Systeme de lancement pour restaurants compacts, cafes et private dining.", includes: ["Architecture menu et direction plats", "Prep flow et logique stations", "Notes de formation de base", "Checklist correction lancement"], cta: "Get a Custom Quote" },
+    { name: "Full Kitchen Launch", scope: "50-120 couverts", oldPrice: "from €35,000", foundingPrice: "from €29,000", offer: "Founding client pricing - first 5 projects only", summary: "Pre-opening complet pour proprietaires qui veulent menu, systemes cuisine et equipe prete.", includes: ["Concept and menu engineering", "Kitchen flow et direction recipe cards", "Materiels hiring/training support", "Soft-launch support plan"], cta: "Get a Custom Quote", recommended: true },
+    { name: "Large-Scale Launch", scope: "120+ couverts, y compris 250-300", oldPrice: "from €60,000", foundingPrice: "starting from €52,000", offer: "Custom proposal after scope review", summary: "Pour grands lieux, cuisines multi-stations, banquet ou projets multi-concept.", includes: ["Multi-station kitchen operating map", "Logique menu et production etendue", "Training system pour grandes equipes", "Staged rollout et on-site support plan"], cta: "Request a Custom Proposal" },
+  ],
+  de: [
+    { name: "Menu & Kitchen Audit", scope: "Jede Grosse, fokussiertes Problem", oldPrice: "from €1,800", foundingPrice: "from €1,500", offer: "Founding client pricing - first 5 projects only", summary: "Diagnose fur Eigentumer, die Margen-, Waste- oder Serviceverluste finden wollen.", includes: ["Menu- und Kitchen-Flow Review", "Food-Cost- und Operations-Risikokarte", "Priorisierte Fixes fur Marge und Service", "Klare Next-step Empfehlung"], cta: "Get a Custom Quote" },
+    { name: "Small Kitchen Launch", scope: "Bis 40-50 Sitzplatze", oldPrice: "from €15,000", foundingPrice: "from €12,500", offer: "Founding client pricing - first 5 projects only", summary: "Launch-System fur kompakte Restaurants, Cafes und Private Dining.", includes: ["Menuarchitektur und Gerichterichtung", "Prep Flow und Stationslogik", "Basis-Trainingsnotizen", "Launch-Korrektur-Checklist"], cta: "Get a Custom Quote" },
+    { name: "Full Kitchen Launch", scope: "50-120 Sitzplatze", oldPrice: "from €35,000", foundingPrice: "from €29,000", offer: "Founding client pricing - first 5 projects only", summary: "Vollstandiges Pre-opening fur Eigentumer, die Menu, Kuchensysteme und Team-Readiness brauchen.", includes: ["Concept and menu engineering", "Kitchen Flow und Recipe-card Richtung", "Hiring/training support materials", "Soft-launch support plan"], cta: "Get a Custom Quote", recommended: true },
+    { name: "Large-Scale Launch", scope: "120+ Sitzplatze, inkl. 250-300", oldPrice: "from €60,000", foundingPrice: "starting from €52,000", offer: "Custom proposal after scope review", summary: "Fur grosse Venues, Multi-Station-Kuchen, Banquet oder Multi-Concept-Projekte.", includes: ["Multi-station kitchen operating map", "Erweiterte Menu- und Produktionslogik", "Training system fur grossere Teams", "Staged rollout und on-site support plan"], cta: "Request a Custom Proposal" },
   ],
 };
 
-export const localizedProcessSteps: Record<Language, string[]> = {
-  en: ["Concept and guest profile", "Kitchen, equipment and staff audit", "Menu architecture and position count", "Dish development and testing", "Tech cards, portions and costing logic", "Prep systems and service flow", "Team training and launch correction"],
-  uk: ["Концепція та профіль гостя", "Аудит кухні, обладнання і команди", "Архітектура меню та кількість позицій", "Розробка і тестування страв", "Техкарти, порції та логіка собівартості", "Системи заготовок і сервісу", "Навчання команди та корекція запуску"],
-  es: ["Concepto y perfil del cliente", "Auditoría de cocina, equipo y personal", "Arquitectura de menú y número de posiciones", "Desarrollo y prueba de platos", "Fichas técnicas, porciones y lógica de costes", "Sistemas de prep y flujo de servicio", "Formación del equipo y ajustes de lanzamiento"],
+export const localizedProcessSteps: Record<Language, ProcessStep[]> = {
+  en: [
+    { title: "Audit", copy: "We review your concept, kitchen limits, staffing and target guest before proposing any menu." },
+    { title: "Concept & Menu", copy: "We design a focused menu that fits your positioning, covers, average check and production reality." },
+    { title: "Kitchen Systems & Training", copy: "We turn the menu into prep flow, station logic, recipe-card direction and team training notes." },
+    { title: "Launch Support", copy: "We support soft launch correction so the team opens with fewer surprises and clearer control." },
+  ],
+  uk: [
+    { title: "Audit", copy: "Перевіряємо концепцію, обмеження кухні, команду і цільового гостя до будь-якого меню." },
+    { title: "Concept & Menu", copy: "Створюємо сфокусоване меню під positioning, посадку, середній чек і виробничу реальність." },
+    { title: "Kitchen Systems & Training", copy: "Перетворюємо меню у prep flow, логіку станцій, напрям recipe cards і training notes." },
+    { title: "Launch Support", copy: "Підтримуємо soft launch correction, щоб команда відкривалась з меншими сюрпризами." },
+  ],
+  es: [
+    { title: "Audit", copy: "Revisamos concepto, límites de cocina, equipo y cliente objetivo antes de proponer un menú." },
+    { title: "Concept & Menu", copy: "Diseñamos un menú enfocado que encaja con posicionamiento, plazas, ticket medio y producción real." },
+    { title: "Kitchen Systems & Training", copy: "Convertimos el menú en prep flow, lógica de estaciones, recipe-card direction y notas de formación." },
+    { title: "Launch Support", copy: "Apoyamos la corrección del soft launch para abrir con menos sorpresas y más control." },
+  ],
+  fr: [
+    { title: "Audit", copy: "Nous verifions concept, limites cuisine, equipe et client cible avant de proposer un menu." },
+    { title: "Concept & Menu", copy: "Nous concevons un menu cible pour positionnement, couverts, ticket moyen et realite production." },
+    { title: "Kitchen Systems & Training", copy: "Nous transformons le menu en prep flow, logique stations, recipe-card direction et notes formation." },
+    { title: "Launch Support", copy: "Nous soutenons les corrections soft launch pour ouvrir avec moins de surprises et plus de controle." },
+  ],
+  de: [
+    { title: "Audit", copy: "Wir prufen Konzept, Kuchengrenzen, Team und Zielgast, bevor wir ein Menu vorschlagen." },
+    { title: "Concept & Menu", copy: "Wir entwickeln ein fokussiertes Menu fur Positionierung, Sitzplatze, Durchschnittsbon und Produktion." },
+    { title: "Kitchen Systems & Training", copy: "Wir ubersetzen das Menu in Prep Flow, Stationslogik, Recipe-card Richtung und Training Notes." },
+    { title: "Launch Support", copy: "Wir unterstutzen Soft-launch Korrektur, damit das Team mit weniger Uberraschungen startet." },
+  ],
 };
