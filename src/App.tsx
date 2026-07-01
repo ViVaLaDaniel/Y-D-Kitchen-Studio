@@ -12,7 +12,6 @@ import {
 
 const whatsappNumber = "34642370671";
 const buildWhatsAppUrl = (message: string) => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-const whatsappUrl = buildWhatsAppUrl("Hello Y&D Kitchen Studio, I would like to book a free 30-minute kitchen audit call.");
 
 const languages: Array<{ code: Language; label: string }> = [
   { code: "en", label: "EN" },
@@ -40,6 +39,8 @@ function Header({
   setLang: (language: Language) => void;
 }) {
   const content = localizedContent[lang];
+  const growth = localizedGrowthContent[lang];
+  const whatsappUrl = buildWhatsAppUrl(growth.contactBrief.whatsappIntro);
 
   return (
     <header className="site-header">
@@ -77,6 +78,8 @@ function Header({
 
 function Hero({ lang }: { lang: Language }) {
   const content = localizedContent[lang];
+  const growth = localizedGrowthContent[lang];
+  const whatsappUrl = buildWhatsAppUrl(growth.contactBrief.whatsappIntro);
 
   return (
     <section className="hero" id="top">
@@ -84,10 +87,10 @@ function Hero({ lang }: { lang: Language }) {
         <h1>{content.hero.title}</h1>
         <p>{content.hero.copy}</p>
         <div className="hero-actions">
-          <a className="button ghost" href={whatsappUrl}>
+          <a className="button primary" href={whatsappUrl}>
             {content.cta.book}
           </a>
-          <a className="button primary" href="#menus">
+          <a className="button ghost" href="#portfolio">
             {content.cta.portfolio}
           </a>
         </div>
@@ -127,6 +130,7 @@ function ProofStrip({ lang }: { lang: Language }) {
 
 function OperatingAuthority({ lang }: { lang: Language }) {
   const growth = localizedGrowthContent[lang];
+  const whatsappUrl = buildWhatsAppUrl(growth.contactBrief.whatsappIntro);
 
   return (
     <section className="section authority-section">
@@ -333,6 +337,7 @@ function Packages({ lang }: { lang: Language }) {
   const content = localizedContent[lang];
   const growth = localizedGrowthContent[lang];
   const packages = localizedPackages[lang];
+  const whatsappUrl = buildWhatsAppUrl(growth.contactBrief.whatsappIntro);
 
   return (
     <section className="section packages-section" id="menus">
@@ -383,14 +388,17 @@ function Contact({ lang }: { lang: Language }) {
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [projectType, setProjectType] = useState(growth.contactBrief.options[0]);
+  const selectedProjectType = growth.contactBrief.options.includes(projectType)
+    ? projectType
+    : growth.contactBrief.options[0];
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const message = [
-      "Hello Y&D Kitchen Studio, I would like to book a free 30-minute kitchen audit call.",
-      `Name: ${name || "-"}`,
-      `Contact: ${contact || "-"}`,
-      `Project type: ${projectType}`,
+      growth.contactBrief.whatsappIntro,
+      `${growth.contactBrief.whatsappName}: ${name || "-"}`,
+      `${growth.contactBrief.whatsappContact}: ${contact || "-"}`,
+      `${growth.contactBrief.whatsappProjectType}: ${selectedProjectType}`,
     ].join("\n");
     window.location.href = buildWhatsAppUrl(message);
   };
@@ -416,7 +424,7 @@ function Contact({ lang }: { lang: Language }) {
           </label>
           <label>
             {growth.contactBrief.typeLabel}
-            <select value={projectType} onChange={(event) => setProjectType(event.target.value)} name="projectType">
+            <select value={selectedProjectType} onChange={(event) => setProjectType(event.target.value)} name="projectType">
               {growth.contactBrief.options.map((option) => (
                 <option key={option}>{option}</option>
               ))}
@@ -432,6 +440,10 @@ function Contact({ lang }: { lang: Language }) {
 export default function App() {
   const [lang, setLang] = useState<Language>("en");
   const floatingLabel = useMemo(() => localizedContent[lang].cta.whatsapp, [lang]);
+  const floatingWhatsappUrl = useMemo(
+    () => buildWhatsAppUrl(localizedGrowthContent[lang].contactBrief.whatsappIntro),
+    [lang],
+  );
 
   return (
     <>
@@ -451,7 +463,7 @@ export default function App() {
         <Confidentiality lang={lang} />
         <Contact lang={lang} />
       </main>
-      <a className="floating-whatsapp" href={whatsappUrl} aria-label={floatingLabel}>
+      <a className="floating-whatsapp" href={floatingWhatsappUrl} aria-label={floatingLabel}>
         {floatingLabel}
       </a>
     </>

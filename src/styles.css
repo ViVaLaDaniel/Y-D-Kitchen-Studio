@@ -188,11 +188,11 @@ nav a:hover,
 .hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
   gap: clamp(32px, 5vw, 84px);
   align-items: center;
   min-height: calc(100vh - 78px);
-  padding: clamp(64px, 9vw, 128px) clamp(18px, 6vw, 88px) 72px;
+  padding: clamp(54px, 7vw, 96px) clamp(18px, 6vw, 88px) 72px;
   overflow: hidden;
 }
 
@@ -224,14 +224,14 @@ h2 {
   font-family: Georgia, "Times New Roman", serif;
   font-weight: 500;
   letter-spacing: 0;
-  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 h1 {
-  max-width: 820px;
+  max-width: 720px;
   margin-bottom: 24px;
-  font-size: clamp(3.2rem, 8vw, 7.6rem);
-  line-height: 0.9;
+  font-size: clamp(2.8rem, 4.7vw, 4.85rem);
+  line-height: 1.02;
 }
 
 .hero-copy p {
@@ -352,7 +352,7 @@ h1 {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
-    linear-gradient(145deg, rgba(214, 173, 99, 0.1), rgba(255, 255, 255, 0.025)),
+    linear-gradient(145deg, rgba(214, 173, 99, 0.07), rgba(255, 255, 255, 0.018)),
     rgba(11, 10, 8, 0.78);
 }
 
@@ -520,10 +520,10 @@ h1 {
 .advisor-stat,
 .turnkey-card,
 .market-card {
-  border: 1px solid var(--line);
+  border: 1px solid rgba(242, 213, 147, 0.13);
   border-radius: var(--radius);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.014)),
     rgba(11, 10, 8, 0.7);
 }
 
@@ -621,7 +621,7 @@ h1 {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
     rgba(11, 10, 8, 0.7);
   box-shadow: 0 18px 70px rgba(0, 0, 0, 0.18);
 }
@@ -809,7 +809,7 @@ ul {
 
 .process-list {
   display: grid;
-  grid-template-columns: repeat(7, minmax(170px, 1fr));
+  grid-template-columns: repeat(4, minmax(190px, 1fr));
   gap: 12px;
   overflow-x: auto;
 }
@@ -844,11 +844,14 @@ ul {
 
 .package-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
 }
 
 .package-card {
   min-height: 420px;
   padding: 26px;
+  display: flex;
+  flex-direction: column;
   transition:
     transform 220ms ease,
     border-color 220ms ease;
@@ -856,33 +859,41 @@ ul {
 
 .price-row {
   display: grid;
-  gap: 6px;
-  margin: 16px 0 10px;
+  gap: 8px;
+  margin: 18px 0 12px;
+  padding: 16px 0;
+  border-block: 1px solid rgba(242, 213, 147, 0.13);
 }
 
 .price-row s {
-  color: var(--soft);
-  font-size: 0.94rem;
+  color: #9c8f80;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(242, 213, 147, 0.38);
 }
 
 .price-row strong {
   color: var(--gold-2);
   font-family: Georgia, serif;
-  font-size: clamp(1.65rem, 2.5vw, 2.4rem);
+  font-size: clamp(1.45rem, 2vw, 2.05rem);
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.08;
 }
 
 .offer-note {
   display: inline-flex;
-  margin-bottom: 16px;
-  padding: 8px 10px;
-  border: 1px solid rgba(242, 213, 147, 0.18);
-  border-radius: var(--radius);
-  color: #f3d99c !important;
-  background: rgba(214, 173, 99, 0.08);
-  font-size: 0.78rem;
+  width: fit-content;
+  margin-bottom: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: #d8c49b !important;
+  background: transparent;
+  font-size: 0.76rem;
   font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .package-card.recommended {
@@ -901,7 +912,7 @@ ul {
   justify-content: center;
   width: 100%;
   min-height: 42px;
-  margin-top: 20px;
+  margin-top: auto;
   padding: 0 14px;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -1142,7 +1153,8 @@ ul {
   }
 
   h1 {
-    font-size: clamp(3rem, 17vw, 5rem);
+    font-size: clamp(2.7rem, 13vw, 4.25rem);
+    line-height: 1;
   }
 
   .hero-visual,
@@ -1153,6 +1165,7 @@ ul {
 
   .floating-card {
     max-width: 220px;
+    padding: 14px;
   }
 
   .service-card {
@@ -1161,8 +1174,7 @@ ul {
   }
 
   .location-card {
-    top: 18px;
-    right: 12px;
+    display: none;
   }
 
   .about-grid,
@@ -1251,8 +1263,7 @@ ul {
   }
 
   .floating-whatsapp {
-    right: 12px;
-    bottom: 12px;
+    display: none;
   }
 }
 
