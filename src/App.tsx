@@ -1,4 +1,4 @@
-import { type FormEvent, useMemo, useState } from "react";
+import { type FormEvent, useMemo, useRef, useState } from "react";
 import teamHeroImage from "./assets/yd-hospitality-advisory-team.png";
 import {
   localizedContent,
@@ -21,6 +21,23 @@ const languages: Array<{ code: Language; label: string }> = [
   { code: "de", label: "DE" },
 ];
 
+type SectionKey = "overview" | "process" | "work" | "experience" | "pricing" | "contact";
+
+const sectionOrder: SectionKey[] = ["overview", "process", "work", "experience", "pricing", "contact"];
+
+function getContentLabels(lang: Language): Record<SectionKey, string> {
+  const content = localizedContent[lang];
+
+  return {
+    overview: lang === "en" ? "Overview" : lang === "uk" ? "Огляд" : lang === "es" ? "Resumen" : lang === "fr" ? "Vue d'ensemble" : "Überblick",
+    process: content.process.label,
+    work: content.nav.portfolio,
+    experience: content.nav.experience,
+    pricing: content.nav.menus,
+    contact: content.nav.contact,
+  };
+}
+
 function SectionTitle({ label, title, copy }: { label: string; title: string; copy?: string }) {
   return (
     <div className="section-title">
@@ -34,25 +51,46 @@ function SectionTitle({ label, title, copy }: { label: string; title: string; co
 function Header({
   lang,
   setLang,
+  activeSection,
+  onSectionChange,
 }: {
   lang: Language;
   setLang: (language: Language) => void;
+  activeSection: SectionKey;
+  onSectionChange: (section: SectionKey) => void;
 }) {
   const content = localizedContent[lang];
   const growth = localizedGrowthContent[lang];
   const whatsappUrl = buildWhatsAppUrl(growth.contactBrief.whatsappIntro);
+  const sectionLabels = getContentLabels(lang);
 
   return (
     <header className="site-header">
-      <a className="brand" href="#top" aria-label="Y&D Kitchen Studio home">
+      <a
+        className="brand"
+        href="#top"
+        aria-label="Y&D Kitchen Studio home"
+        onClick={(event) => {
+          event.preventDefault();
+          onSectionChange("overview");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
         <span>Y&D</span>
         <strong>Kitchen Studio</strong>
       </a>
-      <nav aria-label="Primary navigation">
-        <a href="#experience">{content.nav.experience}</a>
-        <a href="#portfolio">{content.nav.portfolio}</a>
-        <a href="#menus">{content.nav.menus}</a>
-        <a href="#contact">{content.nav.contact}</a>
+      <nav className="section-nav" aria-label="Primary navigation">
+        {sectionOrder.map((section) => (
+          <button
+            aria-pressed={activeSection === section}
+            className={activeSection === section ? "active" : ""}
+            key={section}
+            onClick={() => onSectionChange(section)}
+            type="button"
+          >
+            {sectionLabels[section]}
+          </button>
+        ))}
       </nav>
       <div className="header-actions">
         <div className="language-switcher" aria-label="Language selector">
@@ -76,7 +114,7 @@ function Header({
   );
 }
 
-function Hero({ lang }: { lang: Language }) {
+function Hero({ lang, onShowWork }: { lang: Language; onShowWork: () => void }) {
   const content = localizedContent[lang];
   const growth = localizedGrowthContent[lang];
   const whatsappUrl = buildWhatsAppUrl(growth.contactBrief.whatsappIntro);
@@ -90,9 +128,9 @@ function Hero({ lang }: { lang: Language }) {
           <a className="button primary" href={whatsappUrl}>
             {content.cta.book}
           </a>
-          <a className="button ghost" href="#portfolio">
+          <button className="button ghost" onClick={onShowWork} type="button">
             {content.cta.portfolio}
-          </a>
+          </button>
         </div>
       </div>
       <div className="hero-visual reveal" aria-label={content.hero.imageLabel}>
@@ -437,31 +475,73 @@ function Contact({ lang }: { lang: Language }) {
   );
 }
 
+function ActiveSection({ activeSection, lang }: { activeSection: SectionKey; lang: Language }) {
+  switch (activeSection) {
+    case "overview":
+      return (
+        <>
+          <ProofStrip lang={lang} />
+          <OperatingAuthority lang={lang} />
+          <AdvisoryTeam lang={lang} />
+        </>
+      );
+    case "process":
+      return (
+        <>
+          <TurnkeySystem lang={lang} />
+          <InternationalOwners lang={lang} />
+          <Process lang={lang} />
+        </>
+      );
+    case "work":
+      return (
+        <>
+          <About lang={lang} />
+          <OurWork lang={lang} />
+        </>
+      );
+    case "experience":
+      return <Experience lang={lang} />;
+    case "pricing":
+      return (
+        <>
+          <Packages lang={lang} />
+          <Confidentiality lang={lang} />
+        </>
+      );
+    case "contact":
+      return <Contact lang={lang} />;
+    default:
+      return null;
+  }
+}
+
 export default function App() {
   const [lang, setLang] = useState<Language>("en");
+  const [activeSection, setActiveSection] = useState<SectionKey>("overview");
+  const contentPanelRef = useRef<HTMLDivElement>(null);
   const floatingLabel = useMemo(() => localizedContent[lang].cta.whatsapp, [lang]);
   const floatingWhatsappUrl = useMemo(
     () => buildWhatsAppUrl(localizedGrowthContent[lang].contactBrief.whatsappIntro),
     [lang],
   );
+  const setSection = (section: SectionKey) => {
+    setActiveSection(section);
+    window.requestAnimationFrame(() => {
+      contentPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
 
   return (
     <>
-      <Header lang={lang} setLang={setLang} />
+      <Header lang={lang} setLang={setLang} activeSection={activeSection} onSectionChange={setSection} />
       <main>
-        <Hero lang={lang} />
-        <ProofStrip lang={lang} />
-        <OperatingAuthority lang={lang} />
-        <AdvisoryTeam lang={lang} />
-        <About lang={lang} />
-        <TurnkeySystem lang={lang} />
-        <InternationalOwners lang={lang} />
-        <Experience lang={lang} />
-        <OurWork lang={lang} />
-        <Process lang={lang} />
-        <Packages lang={lang} />
-        <Confidentiality lang={lang} />
-        <Contact lang={lang} />
+        <Hero lang={lang} onShowWork={() => setSection("work")} />
+        <div className="active-section-shell" ref={contentPanelRef}>
+          <div className="active-section-panel" key={`${lang}-${activeSection}`}>
+            <ActiveSection activeSection={activeSection} lang={lang} />
+          </div>
+        </div>
       </main>
       <a className="floating-whatsapp" href={floatingWhatsappUrl} aria-label={floatingLabel}>
         {floatingLabel}
